@@ -6,39 +6,40 @@ HiTe - platform with unusual interactive Historical Tests
 - [ ] [Front-End](front-end)
 - [ ] [Api demo-version](demo-api)
 
-## Технологии и инструменты
-- Git — система контроля версий
-- GitHub — платформа для хостинга репозиториев
-- Markdown — язык разметки для оформления документации
-### Front-End:
-- Next.js
-- HTML
-- SCSS
-### Back-End:
-- Python
-- FastAPI
-- PostgreSQL
+## Technologies and tools
+- Git — version control system
+- GitHub — repository hosting platform
+- Markdown — markup language for documentation design
 
-## Инструкция по запуску
-1. Клонирование репозитория:
+### Front-End:
+  - Next.js — React-based framework for developing client-server (fullstack) applications for both mobile platforms and the web
+  - HTML — hypertext markup language
+  - CSS — markup language used for the visual design of websites
+
+### Back-End:
+- Python — high-level programming language
+- FastAPI — web framework for creating an API written in Python
+- PostgreSQL — high-performance open source object-relational database management system
+
+## Launch Instructions
+1. Cloning the repository:
   ```rb
-  git clone https://github.com/L1tDeV/HiTe.git
+  git clone https://github.com/smaf1-dev/HiTe.git
   ```
-2. Выберите директорию с клиентской частью:
+2. Select the directory with the client part:
   ```
   cd HiTe/front-end
   ```
-## Структура проекта
-В папках task1...n лежат следующие папки:
-- `front-end/` — клиентская часть платформы
-- `demo-api/` — демо-версия api
+## Project structure
+- `front-end/` — the client part of the platform
+- `demo-api/` — demo version of the api
 
-## Запуск проекта
-Для запуска клиентской части выполните:
+## Project launch
+To run the client side, run:
    ```
    yarn dev
    ```
-или
+or
    ```
    npm run dev
    ```
