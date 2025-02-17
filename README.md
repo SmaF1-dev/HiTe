@@ -24,7 +24,7 @@ HiTe - platform with unusual interactive Historical Tests
 ## Launch Instructions
 1. Cloning the repository:
   ```rb
-  git clone https://github.com/smaf1-dev/HiTe.git
+  git clone https://github.com/SmaF1-dev/HiTe.git
   ```
 2. Select the directory with the client part:
   ```
