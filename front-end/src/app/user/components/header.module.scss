@@ -1,0 +1,54 @@
+@media (min-width: 200px){
+}
+
+@media (min-width: 900px){
+    .nav {
+        display: inline-block;
+        width: 100vw;
+        height: auto;
+        border-bottom: 1.5px solid var(--stroke-clr);
+        padding: 3vh 5vw;
+    }
+
+    .nav_elem {
+        display: block;
+        height: 4vh;
+        width: auto;
+        text-align: right;
+        font-size: 120%;
+        margin: 1vh 1vw auto 1vw;
+
+        &:hover {
+            color: var(--selected-clr);
+            transition: 0.5s;
+        }
+    }
+
+    .nav_elem_selected {
+        display: block;
+        height: 4vh;
+        width: auto;
+        font-size: 120%;
+        margin: 1vh 1vw auto 1vw;
+        color: var(--selected-clr);
+        text-decoration: underline var(--selected-clr);
+    }
+
+    .nav_main_elem {
+        display: block;
+        font-weight: 600;
+        height: 5vh;
+        width: auto;
+        float: left;
+        margin-top: -0.5vh;
+        font-size: 215%;
+    }
+
+    .nav_tble {
+        display: block;
+        height: 100%;
+        float: right;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+}

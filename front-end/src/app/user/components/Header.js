@@ -17,13 +17,13 @@ const Navigate_table = () => {
             <thead>
                 <tr>
                     <th>
-                        <Navigate_elem src={'/'} name={'К тестам'} style={styles.nav_elem_selected}/>
+                        <Navigate_elem src={'/'} name={'К тестам'} style={styles.nav_elem}/>
                     </th>
                     <th>
                         <Navigate_elem src={'/'} name={'Мои тесты'} style={styles.nav_elem}/>
                     </th>
                     <th>
-                        <Navigate_elem src={'/user'} name={'Личный кабинет'} style={styles.nav_elem}/>
+                        <Navigate_elem src={'/user'} name={'Личный кабинет'} style={styles.nav_elem_selected}/>
                     </th>
                 </tr>
             </thead>
@@ -50,19 +50,8 @@ const Navigate = () => {
     )
 }
 
-const Page_text = ({name}) => {
-    return (
-        <div className={styles.page_text}>
-            <h1>{name}</h1>
-        </div>
-    )
-}
-
 export const Header = () => {
     return (
-        <>
-            <Navigate />
-            <Page_text name={"Historical tests"}/>
-        </>
+        <Navigate />
     )
 }
