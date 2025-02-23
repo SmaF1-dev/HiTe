@@ -22,7 +22,9 @@ const UserInfo = ({fullname, organization, date}) => {
                     </tr>
                 </tbody>
             </table>
-            <button>Выйти</button>
+            <Link href="/authorization">
+                <button>Выйти</button>
+            </Link>
         </div>
     )
 }

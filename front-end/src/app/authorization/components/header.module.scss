@@ -1,0 +1,30 @@
+@media (min-width: 200px){
+}
+
+@media (min-width: 900px){
+    .nav {
+        display: inline-block;
+        width: 100vw;
+        height: auto;
+        border-bottom: 1.5px solid var(--stroke-clr);
+        padding: 3vh 5vw;
+    }
+
+    .nav_main_elem {
+        display: block;
+        font-weight: 600;
+        height: 5vh;
+        width: auto;
+        float: left;
+        margin-top: -0.5vh;
+        margin-bottom: 0.7vh;
+        font-size: 215%;
+    }
+
+    .page_text {
+        display: block;
+        font-size: 200%;
+        font-weight: 700;
+        margin: 4vh 4vw;
+    }
+}

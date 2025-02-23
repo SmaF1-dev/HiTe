@@ -20,7 +20,7 @@ const Navigate_table = () => {
                         <Navigate_elem src={'/'} name={'К тестам'} style={styles.nav_elem}/>
                     </th>
                     <th>
-                        <Navigate_elem src={'/'} name={'Мои тесты'} style={styles.nav_elem}/>
+                        <Navigate_elem src={'/mytests'} name={'Мои тесты'} style={styles.nav_elem}/>
                     </th>
                     <th>
                         <Navigate_elem src={'/user'} name={'Личный кабинет'} style={styles.nav_elem_selected}/>

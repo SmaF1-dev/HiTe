@@ -1,23 +1,39 @@
 @media (min-width: 900px){
-    .test_block {
+    .info_block {
         width: 30vw;
         height: auto;
         padding: 2vh 2vw;
         display: block;
         border: 1.5px solid var(--stroke-clr);
         border-radius: 20px;
-        margin: 1vh 0.5vw;
+        margin: 1vh 2vw;
+        text-align: center;
     
         > h2 {
-            font-size: 120%;
+            font-size: 160%;
             font-weight: 700;
         }
     
-        > h3 {
-            font-size: 100%;
+        > p {
+            font-size: 120%;
         }
-    
-        .test_link {
+    }
+
+    .block_link{
+        width: 30vw;
+        height: auto;
+        padding: 2vh 2vw;
+        display: block;
+        border: 1.5px solid var(--stroke-clr);
+        border-radius: 20px;
+        margin: 1vh 2vw;
+
+        > h2 {
+            font-size: 160%;
+            font-weight: 700;
+        }
+
+        .need_link {
             text-align: right;
             font-size: 160%;
             font-weight: 700;
@@ -29,14 +45,26 @@
         }
     }
     
-    .tests_table {
+    .big_table {
         width: auto;
         height: auto;
         margin: 0 auto;
     }
 
-    .search_form{
-        margin: 1vh 1vw 2vh 4vw;
+    .auth_form{
+        width: 28vw;
+        height: auto;
+        padding: 3vh 3vw;
+        text-align: center;
+        border: 1.5px solid var(--stroke-clr);
+        border-radius: 20px;
+        margin-left: 2vw;
+
+        > h2 {
+            font-size: 150%;
+            font-weight: 700;
+            margin-bottom: 2vh;
+        }
 
         input {
             width: 20vw;
@@ -45,16 +73,17 @@
             border: 1px solid var(--stroke-clr);
             border-radius: 20px;
             font-size: 100%;
-            margin-right: 1vw;
+            margin: 0.5vh 0;
         }
 
         button {
-            width: 6vw;
+            width: 8vw;
             height: 5vh;
             background-color: var(--main-btn-clr);
             color: var(--background-clr);
             border-radius: 20px;
             border: 1px solid var(--main-btn-clr);
+            margin-top: 1vh;
 
             &:hover {
                 background-color: var(--background-clr);
