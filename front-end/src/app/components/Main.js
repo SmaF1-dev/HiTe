@@ -33,7 +33,7 @@ const All_tests = () => {
             <tbody>
                 <tr>
                     <td>
-                        <Block_with_test name="Распад СССР" author="Пригодич Никита Дмитриевич" type="Timeline" src="./"/>
+                        <Block_with_test name="Распад СССР" author="Пригодич Никита Дмитриевич" type="Timeline" src="./timelinetest"/>
                     </td>
                     <td>
                         <Block_with_test name="Первая мировая война" author="Пригодич Никита Дмитриевич" type="10 cards" src="./"/>
