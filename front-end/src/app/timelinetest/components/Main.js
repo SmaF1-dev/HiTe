@@ -39,48 +39,46 @@ const Block_picked_event = ({name}) => {
     )
 }
 
-const Block_for_pick = ({choosed_id, id}) => {
-
-    let [style_block, setStyle] = useState(styles.block_for_pick);
-    let [new_id, setId] = useState(choosed_id);
-
-    // if(choosed_id!=id){
-    //     setStyle(styles.block_for_pick);
-    // }else{
-    //     setStyle(styles.block_for_pick);
-    // }
+const Block_for_pick = ({ id, chosenId, setChosenId }) => {
+    const [style_block, setStyle] = useState(styles.block_for_pick);
 
     useEffect(() => {
-        localStorage.setItem('choosed_id', id);
-        setId(id);
-    }, [style_block]);
+        if (id === chosenId) {
+            setStyle(styles.block_picked);
+        } else {
+            setStyle(styles.block_for_pick);
+        }
+    }, [chosenId, id]);
 
     return (
         <div className={style_block}>
-            <button onClick={()=>{setStyle(styles.block_picked)}}>
-                {new_id}
+            <button onClick={() => setChosenId(id)}>
+                {id}
             </button>
         </div>
-    )
+    );
 }
 
 const Events_list = () => {
+    const [chosenId, setChosenId] = useState(-1);
 
-    if (localStorage.getItem('choosed_id') == null){
-        localStorage.setItem('choosed_id', -1);
-    }
-    
-    let choosed_id = localStorage.getItem('choosed_id')
+    useEffect(() => {
+        console.log(chosenId)
+    }, [chosenId]);
 
     const events_lst = [
         <Block_picked_event name={"Событие 1"} />,
-        <Block_for_pick id={1} choosed_id={choosed_id}/>,
+        <Block_for_pick id={1} chosenId={chosenId} setChosenId={setChosenId} />,
         <Block_picked_event name={"Событие 2"} />,
-        <Block_for_pick id={3} choosed_id={choosed_id}/>,
+        <Block_for_pick id={3} chosenId={chosenId} setChosenId={setChosenId} />,
         <Block_picked_event name={"Событие 3"} />
-    ]
+    ];
 
-    return events_lst
+    return (
+        <div>
+            {events_lst}
+        </div>
+    );
 }
 
 const Save_btn = () => {
