@@ -1,0 +1,107 @@
+@media (min-width: 900px){
+    .info_block {
+        width: 30vw;
+        height: auto;
+        padding: 2vh 2vw;
+        display: block;
+        border: 1.5px solid var(--stroke-clr);
+        border-radius: 20px;
+        margin: 1vh 2vw;
+        text-align: center;
+    
+        > h2 {
+            font-size: 160%;
+            font-weight: 700;
+        }
+    
+        > p {
+            font-size: 120%;
+        }
+    }
+
+    .block_link{
+        width: 30vw;
+        height: auto;
+        padding: 2vh 2vw;
+        display: block;
+        border: 1.5px solid var(--stroke-clr);
+        border-radius: 20px;
+        margin: 1vh 2vw;
+
+        > h2 {
+            font-size: 160%;
+            font-weight: 700;
+        }
+
+        .need_link {
+            text-align: right;
+            font-size: 160%;
+            font-weight: 700;
+    
+            &:hover {
+                transition: 0.5s;
+                color: var(--selected-clr);
+            }
+        }
+    }
+    
+    .big_table {
+        width: auto;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    .auth_form{
+        width: 28vw;
+        height: auto;
+        padding: 3vh 3vw;
+        text-align: center;
+        border: 1.5px solid var(--stroke-clr);
+        border-radius: 20px;
+        margin-left: 2vw;
+
+        > h2 {
+            font-size: 150%;
+            font-weight: 700;
+            margin-bottom: 2vh;
+        }
+
+        input {
+            width: 20vw;
+            height: 5vh;
+            padding: 5px 10px;
+            border: 1px solid var(--stroke-clr);
+            border-radius: 20px;
+            font-size: 100%;
+            margin: 0.5vh 0;
+        }
+
+        button {
+            width: 8vw;
+            height: 5vh;
+            background-color: var(--main-btn-clr);
+            color: var(--background-clr);
+            border-radius: 20px;
+            border: 1px solid var(--main-btn-clr);
+            margin-top: 1vh;
+
+            &:hover {
+                background-color: var(--background-clr);
+                color: var(--main-btn-clr);
+                transition: 0.5s;
+            }
+        }
+    }
+}
+@media (min-width: 1071px){
+    .test_block {
+
+        > h2 {
+            font-size: 160%;
+        }
+
+        > h3 {
+            font-size: 110%;
+        }
+    }
+}

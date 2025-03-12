@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap');
+
+:root {
+  --foreground-clr: #000000;
+  --background-clr: #FFFFFF;
+  --main-btn-clr: #1E1E1E;
+  --stroke-clr: #292929;
+  --selected-clr: #4B5195;
+  
+  --green-clr: #D8FFC0;
+  --yellow-clr: #FFFEA8;
+  --red-clr: #FF6C6C;
+  --blue-clr: #9AA2FF;
+  --gray-clr: #515151;
+  
+  font-family: 'Rubik', sans-serif;
+}
+
+body {
+  color: var(--foreground-rgb);
+  background-color: var(--background-clr);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

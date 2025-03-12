@@ -1,0 +1,112 @@
+@media (min-width: 900px){
+    .info_block {
+        width: 70vw;
+        height: auto;
+        padding: 2vh 2vw;
+        display: block;
+        border: 1.5px solid var(--stroke-clr);
+        border-radius: 20px;
+        margin: 1vh auto;
+        overflow: hidden;
+
+        .user_info{
+            > h2 {
+                font-size: 160%;
+                font-weight: 700;
+            }
+        
+            > h3 {
+                font-size: 120%;
+            }
+        }
+
+        .user_img{
+            width: 14vh;
+            height: 14vh;
+            display: block;
+            padding: 2vh 2vh;
+            border: 1px solid var(--stroke-clr);
+            border-radius: 100px;
+            margin: 1vh 2vw 1vh 1vw;
+
+            img {
+                width: auto;
+                height: auto;
+                border-radius: 100px;
+            }
+        }
+
+        button {
+            width: auto;
+            height: auto;
+            padding: 1vh 1vw;
+            font-size: 100%;
+            font-weight: 700;
+            color: var(--red-clr);
+            border: 2px solid var(--red-clr);
+            border-radius: 20px;
+            float: right;
+
+            &:hover {
+                color: var(--background-clr);
+                background-color: var(--red-clr);
+                transition: 0.5s;
+            }
+        }
+    }
+
+    @mixin block_result($color) {
+        width: 70vw;
+        height: auto;
+        padding: 2vh 2vw;
+        display: block;
+        border: 1.5px solid var(--stroke-clr);
+        background-color: $color;
+        border-radius: 20px;
+        margin: 2vh auto;
+    
+        > h3 {
+            font-size: 120%;
+        }
+    
+        .test_link {
+            text-align: right;
+            font-size: 160%;
+            font-weight: 700;
+    
+            &:hover {
+                transition: 0.5s;
+                color: var(--selected-clr);
+            }
+        }
+
+        .tble_result {
+            width: 100%;
+            > h2 {
+                font-size: 160%;
+                font-weight: 700;
+                text-align: left;
+                display: inline;
+            }
+
+            > h1 {
+                font-size: 160%;
+                font-weight: 700;
+                float: right;
+                display: inline;
+            }
+        }
+    }
+
+    .red_result{
+        @include block_result(var(--red-clr))
+    }
+
+    .yellow_result{
+        @include block_result(var(--yellow-clr))
+    }
+
+    .green_result{
+        @include block_result(var(--green-clr))
+    }
+}
