@@ -59,12 +59,7 @@ const Block_for_pick = ({ id, chosenId, setChosenId }) => {
     );
 }
 
-const Events_list = () => {
-    const [chosenId, setChosenId] = useState(-1);
-
-    useEffect(() => {
-        console.log(chosenId)
-    }, [chosenId]);
+const Events_list = ({chosenId, setChosenId}) => {
 
     const events_lst = [
         <Block_picked_event name={"Событие 1"} />,
@@ -81,10 +76,10 @@ const Events_list = () => {
     );
 }
 
-const Save_btn = () => {
+const Save_btn = ({chosenId}) => {
     return (
         <div className={styles.save_block}>
-            <button>
+            <button onClick={() => { console.log(chosenId) }}>
                 <h2>Выбрать</h2>
             </button>
         </div>
@@ -92,8 +87,12 @@ const Save_btn = () => {
 }
 
 const Test_table = () => {
+    const [chosenId, setChosenId] = useState(-1);
+
+    useEffect(() => {}, [chosenId]);
+
     return (
-        <table>
+        <table className={styles.tests_table}>
             <tbody>
                 <tr>
                     <td>
@@ -104,10 +103,10 @@ const Test_table = () => {
                     <td>
                         <Block_rules />
                         <Block_event_for_choose name={"Выбранное событие"} />
-                        <Save_btn />
+                        <Save_btn chosenId={chosenId} />
                     </td>
                     <td>
-                        <Events_list />
+                        <Events_list chosenId={chosenId} setChosenId={setChosenId} />
                     </td>
                 </tr>
             </tbody>
