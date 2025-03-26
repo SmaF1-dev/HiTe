@@ -39,7 +39,7 @@ const All_tests = () => {
                         <Block_with_test name="Первая мировая война" author="Пригодич Никита Дмитриевич" type="10 cards" src="./10cards"/>
                     </td>
                     <td>
-                        <Block_with_test name="Древняя русь" author="Пригодич Никита Дмитриевич" type="Timeline" src="./"/>
+                        <Block_with_test name="Российская империя" author="Пригодич Никита Дмитриевич" type="Default" src="./default"/>
                     </td>
                 </tr>
             </tbody>
