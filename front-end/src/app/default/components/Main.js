@@ -45,15 +45,49 @@ const Finish_button = ({choosed_id}) => {
     )
 }
 
+const Button_for_pick = ({id_question, choosed_id, id_answ, setChoose, answer}) => {
+    const [style_block, setStyle] = useState(styles.block_for_pick);
+
+    useEffect(() => {
+        if (choosed_id.includes(String(id_question)+':'+String(id_answ))) {
+            setStyle(styles.block_picked);
+        } else {
+            setStyle(styles.block_for_pick);
+        }
+    }, [choosed_id]);
+
+    return (
+        <div className={style_block}>
+            <button onClick={() => {update_choose(String(id_answ), String(id_question), choosed_id, setChoose)}}>{answer}</button>
+        </div>
+    )
+}
+
 const Question_block = ({question, choosed_id, setChoose, id}) => {
 
     return (
         <div className={styles.question_block}>
             <h2>{question["question"]}</h2>
-            <button onClick={() => {update_choose('0', String(id), choosed_id, setChoose)}}>{question["answ"][0]}</button>
-            <button onClick={() => {update_choose('1', String(id), choosed_id, setChoose)}}>{question["answ"][1]}</button>
-            <button onClick={() => {update_choose('2', String(id), choosed_id, setChoose)}}>{question["answ"][2]}</button>
-            <button onClick={() => {update_choose('3', String(id), choosed_id, setChoose)}}>{question["answ"][3]}</button>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <Button_for_pick id_question={id} choosed_id={choosed_id} id_answ={0} setChoose={setChoose} answer={question["answ"][0]}/>
+                        </td>
+                        <td>
+                            <Button_for_pick id_question={id} choosed_id={choosed_id} id_answ={1} setChoose={setChoose} answer={question["answ"][1]}/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <Button_for_pick id_question={id} choosed_id={choosed_id} id_answ={2} setChoose={setChoose} answer={question["answ"][2]}/>
+                        </td>
+                        <td>
+                            <Button_for_pick id_question={id} choosed_id={choosed_id} id_answ={3} setChoose={setChoose} answer={question["answ"][3]}/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     )
 }

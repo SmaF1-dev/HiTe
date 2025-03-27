@@ -21,18 +21,13 @@
     }
 
     .block_for_pick {
-        min-width: 16vw;
-        height: 11vh;
-        padding: 2vh 2vw;
-
-        h2{
-            font-size: 120%;
-            font-weight: 700;
-        }
+        width: 6vw;
+        min-height: 2vh;
 
         button{
             width: 100%;
             height: 100%;
+            padding: 0.5vh 0.5vw;
             display: block;
             border: 1.5px solid var(--foreground-clr);
             border-radius: 20px;
@@ -52,18 +47,13 @@
     }
 
     .block_picked {
-        min-width: 16vw;
-        height: 11vh;
-        padding: 2vh 2vw;
-
-        h2{
-            font-size: 120%;
-            font-weight: 700;
-        }
+        width: 6vw;
+        min-height: 2vh;
 
         button{
             width: 100%;
             height: 100%;
+            padding: 0.5vh 0.5vw;
             display: block;
             border: 1.5px solid var(--selected-clr);
             border-radius: 20px;
@@ -86,33 +76,13 @@
         h2{
             font-size: 120%;
             font-weight: 700;
-        }
-
-        button{
-            width: 8vw;
-            height: 3vh;
-            display: block;
-            border: 1.5px solid var(--foreground-clr);
-            border-radius: 20px;
-            font-size: 100%;
-            font-weight: 700;
-            margin: 0 auto;
-            color: var(--foreground-clr);
-            background-color: var(--background-clr);
-
-            &:hover {
-                transition: 0.5s;
-                color: var(--background-clr);
-                border: 1.5px solid var(--selected-clr);
-                background-color: var(--selected-clr);
-            }
+            margin-bottom: 1vh;
         }
     }
 
     .save_block {
         width: auto;
         height: auto;
-        // margin: 2vh 6vw;
 
         button{
             width: 12vw;
