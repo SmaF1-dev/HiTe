@@ -4,8 +4,9 @@ import styles from "./main.module.scss"
 import { useEffect, useState } from "react"
 
 const update_choose = (answ, id, choosed_id, setChoose) => {
-    if (choosed_id.includes(id)){
-        let id_for_del = choosed_id.indexOf(id);
+    let for_find = id+':';
+    if (choosed_id.includes(for_find)){
+        let id_for_del = choosed_id.indexOf(for_find);
         let part_for_delete = choosed_id.slice(id_for_del, id_for_del+4);
         setChoose(choosed_id.replace(part_for_delete, id+':'+answ+';'))
     }
