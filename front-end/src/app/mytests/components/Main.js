@@ -9,7 +9,7 @@ const Create_panel = () => {
                 <a>
                     <button>10 cards</button>
                 </a>
-                <a>
+                <a href={"/createtimeline"}>
                     <button>Timeline</button>
                 </a>
                 <a>
