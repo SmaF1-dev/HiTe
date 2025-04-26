@@ -6,13 +6,13 @@ const Create_panel = () => {
         <div className={styles.create_panel}>
             <h1>Создать новый тест:</h1>
             <div className={styles.block_btn}>
-                <a>
+                <a href={"/create10cards"}>
                     <button>10 cards</button>
                 </a>
                 <a href={"/createtimeline"}>
                     <button>Timeline</button>
                 </a>
-                <a>
+                <a href={"/createdefault"}>
                     <button>Default</button>
                 </a>
             </div>
