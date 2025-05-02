@@ -1,45 +1,7 @@
 @media (min-width: 900px){
-    
-    .rules_block{
-        width: 20vw;
-        min-height: 24vh;
-        padding: 2vh 2vw;
-        border: 1.5px solid var(--stroke-clr);
-        border-radius: 20px;
-        margin: 2vh 0;
-        text-align: center;
-
-        h2{
-            font-size: 120%;
-            font-weight: 700;
-            margin-bottom: 1vh;
-        }
-        
-        p{
-            font-size: 100%;
-        }
-
-        button{
-            width: 10vw;
-            min-height: 5vh;
-            border-radius: 20px;
-            border: 1.5px solid var(--stroke-clr);
-            color: var(--stroke-clr);
-            background-color: var(--background-clr);
-            margin: 1.5vh;
-            font-size: 100%;
-            font-weight: 700;
-
-            &:hover{
-                background-color: var(--stroke-clr);
-                color: var(--background-clr);
-                transition: 0.5s;
-            }
-        }
-    }
 
     .block_added_events{
-        width: 24vw;
+        width: 20vw;
         height: auto;
         padding: 2vh 2vw;
         border: 1.5px solid var(--stroke-clr);
@@ -52,12 +14,74 @@
         }
     }
 
+    .block_add_event{
+        width: 90%;
+        height: auto;
+        padding: 2vh 2vw;
+        border: 1.5px solid var(--stroke-clr);
+        border-radius: 20px;
+        text-align: center;
+        margin: 2vh auto;
+
+        h3{
+            font-size: 110%;
+            font-weight: 700;
+
+        }
+
+        input{
+            width: 100%;
+            min-height: 5vh;
+            border: 1px solid var(--stroke-clr);
+            border-radius: 20px;
+            padding: 1vh;
+            margin: 2vh 0;
+        }
+
+        button{
+            width: 45%;
+            font-size: 100%;
+            font-weight: 700;
+            border: 1px solid var(--stroke-clr);
+            border-radius: 20px;
+            padding: 6px;
+            margin: auto 0.5vw;
+            transition: 0.5s;
+
+            &:hover{
+                background-color: var(--foreground-clr);
+                color: var(--background-clr);
+                transition: 0.5s;
+            }
+        }
+
+        .delete_btn{
+            width: 45%;
+            font-size: 100%;
+            font-weight: 700;
+            border: 1px solid var(--red-clr);
+            color: var(--red-clr);
+            background-color: var(--background-clr);
+            border-radius: 20px;
+            padding: 6px;
+            margin: auto 0.5vw;
+            transition: 0.5s;
+
+            &:hover{
+                background-color: var(--red-clr);
+                color: var(--background-clr);
+                transition: 0.5s;
+            }
+        }
+    }
+
     .block_create_event{
-        width: 26vw;
+        width: 25vw;
         min-height: 40vh;
         border: 1.5px solid var(--stroke-clr);
         border-radius: 20px;
         padding: 2vh 2vw;
+        margin: 1vh -1vw 1vh 2vw;
         text-align: center;
 
         h3{
@@ -107,7 +131,7 @@
             }
         }
 
-        .delete_btn{
+        .cancel_btn{
             width: 10vw;
             min-height: 5vh;
             border-radius: 20px;
@@ -123,6 +147,32 @@
                 background-color: var(--red-clr);
                 color: var(--background-clr);
                 transition: 0.5s;
+            }
+        }
+
+        .cancel_btn_block {
+            width: 100%;
+            height: auto;
+            display: inline;
+        
+            button{
+                width: 8vw;
+                min-height: 5vh;
+                display: block;
+                border: 1.5px solid var(--red-clr);
+                border-radius: 20px;
+                font-size: 100%;
+                font-weight: 700;
+                display: inline;
+                color: var(--red-clr);
+                background-color: var(--background-clr);
+        
+                &:hover {
+                    transition: 0.5s;
+                    color: var(--background-clr);
+                    border: 1.5px solid var(--red-clr);
+                    background-color: var(--red-clr);
+                }
             }
         }
 
@@ -173,48 +223,18 @@
         }
     }
 
-    .name_cancel_block{
-        width: 20vw;
-        height: auto;
-        margin: -21vh 0 1vh 4vw;
-
-        .block_inp_name{
+    .block_inp_name{
+        width: 25vw;
+        height: 6.5vh;
+        font-size: 110%;
+        margin: 1vh -1vw 1vh 2vw;
+    
+        input{
             width: 100%;
-            height: 6.5vh;
-            font-size: 110%;
-    
-            input{
-                width: 100%;
-                height: 100%;
-                padding: 2vh;
-                border-radius: 20px;
-                border: 1.5px solid var(--stroke-clr);
-            }
-        }
-
-        .cancel_btn_block {
-            width: 100%;
-            height: auto;
-            margin-top: 2vh;
-    
-            button{
-                width: 10vw;
-                min-height: 6vh;
-                display: block;
-                border: 1.5px solid var(--red-clr);
-                border-radius: 20px;
-                font-size: 100%;
-                font-weight: 700;
-                color: var(--red-clr);
-                background-color: var(--background-clr);
-    
-                &:hover {
-                    transition: 0.5s;
-                    color: var(--background-clr);
-                    border: 1.5px solid var(--red-clr);
-                    background-color: var(--red-clr);
-                }
-            }
+            height: 100%;
+            padding: 2vh;
+            border-radius: 20px;
+            border: 1.5px solid var(--stroke-clr);
         }
     }
 

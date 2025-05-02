@@ -228,24 +228,6 @@ const Test_table = () => {
         }
     , [chosenId]);
 
-    // useEffect(
-    //     () => {
-    //         if(chosenId !== -1){
-    //             setEventName('')
-    //             setEventDescr('')
-    //             setStatusAdd(0);
-    //             setFalseRender(1);
-    //             setDelEvent(0);
-
-    //             const new_events = events_lst.map((elem) => elem);
-    //             new_events = new_events.slice(0, chosenId) + new_events.slice(chosenId, new_events.length);
-    //             setEventsList(new_events);
-    //             setChosenId(-1);
-    //         }
-    //     },
-    //     [delEvent]
-    // )
-
     return (
         <table className={styles.tests_table}>
             <tbody>

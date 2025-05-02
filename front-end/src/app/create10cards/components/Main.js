@@ -3,14 +3,78 @@ import Link from "next/link"
 import styles from "./main.module.scss"
 import { useEffect, useRef, useState } from "react"
 
-const Block_rules_save = () => {
+const Block_Create_Incorrect_Event = ({setDelIncorrFlag, incorrect_event, setIncorrectEvent, setAddIncorrFlag, chosenIncorrId}) => {
+
+    const change_incorrect_event = (e) => {
+        setIncorrectEvent(e.target.value)
+    }
+
+    let save_btn = <button onClick={()=>{setAddIncorrFlag(1)}}>Добавить</button>;
+    let del_btn = null;
+
+    if(chosenIncorrId !== -1){
+        save_btn = <button onClick={()=>{setAddIncorrFlag(1)}}>Сохранить</button>;
+        del_btn = <button className={styles.delete_btn} onClick={()=>{
+            setDelIncorrFlag(1);
+        }}>Удалить</button>;
+    }
+    
     return (
-        <div className={styles.rules_block}>
-            <h2>Правила создания теста</h2>
-            <p>Для создания теста типа Timeline Вам необходимо заполнить форму справа. 
-                После нажатия кнопки “Добавить” событие добавится в конец списка. 
-                Порядок событий должен быть от раннего к позднему.</p>
-            <button>Сохранить</button>
+        <div className={styles.block_add_event}>
+            <h3>Ложное событие</h3>
+            <input 
+            type="text"
+            value={incorrect_event}
+            onChange={change_incorrect_event}
+            placeholder="Название события..."
+            />
+            {save_btn}
+            {del_btn}
+        </div>
+    )
+}
+
+const Block_Create_Correct_Event = ({setDelCorrFlag, correct_event, setCorrectEvent, setAddCorrFlag, chosenCorrId}) => {
+
+    const change_correct_event = (e) => {
+        setCorrectEvent(e.target.value)
+    }
+
+    let save_btn = <button onClick={()=>{setAddCorrFlag(1)}}>Добавить</button>;
+    let del_btn = null;
+
+    if(chosenCorrId !== -1){
+        save_btn = <button onClick={()=>{setAddCorrFlag(1)}}>Сохранить</button>;
+        del_btn = <button className={styles.delete_btn} onClick={()=>{
+            setDelCorrFlag(1);
+        }}>Удалить</button>;
+    }
+    
+    return (
+        <div className={styles.block_add_event}>
+            <h3>Правильное событие</h3>
+            <input 
+            type="text"
+            value={correct_event}
+            onChange={change_correct_event}
+            placeholder="Название события..."
+            />
+            {save_btn}
+            {del_btn}
+        </div>
+    )
+}
+
+const Block_Create_Events = ({correct_event, setCorrEvent, incorrect_event,
+    setIncorrEvent, chosenIncorrId, chosenCorrId, setAddCorrFlag, setAddIncorrFlag,
+    setDelCorrFlag, setDelIncorrFlag}) => {
+
+    return(
+        <div>
+            <Block_Create_Correct_Event setDelCorrFlag={setDelCorrFlag} chosenCorrId={chosenCorrId} 
+            correct_event={correct_event} setAddCorrFlag={setAddCorrFlag} setCorrectEvent={setCorrEvent} />
+            <Block_Create_Incorrect_Event setDelIncorrFlag={setDelIncorrFlag} chosenIncorrId={chosenIncorrId} 
+            incorrect_event={incorrect_event} setIncorrectEvent={setIncorrEvent} setAddIncorrFlag={setAddIncorrFlag} />
         </div>
     )
 }
@@ -35,35 +99,38 @@ const Added_event = ({ name, id, chosenId, setChosenId }) => {
     );
 }
 
-const Events_list = ({chosenId, setChosenId, events_lst}) => {
+const Events_Correct_list = ({chosenCorrId, setChosenCorrId, correct_events_lst}) => {
 
     const renderList = [];
-    for(let i=0; i<events_lst.length; i++){
+    for(let i=0; i<correct_events_lst.length; i++){
         renderList.push(
-            <Added_event key={i} name={events_lst[i][0]} id={i} chosenId={chosenId} setChosenId={setChosenId} />
+            <Added_event key={i} name={correct_events_lst[i]} id={i} chosenId={chosenCorrId} setChosenId={setChosenCorrId} />
         )
     }
 
     return (
         <div className={styles.block_added_events}>
-            <h3>Добавленные события</h3>
+            <h3>Верные события</h3>
             {renderList}
         </div>
     );
 }
 
-const Cancel_button = () => {
+const Events_Incorrect_list = ({chosenIncorrId, setChosenIncorrId, incorrect_events_lst}) => {
+
+    const renderList = [];
+    for(let i=0; i<incorrect_events_lst.length; i++){
+        renderList.push(
+            <Added_event key={i} name={incorrect_events_lst[i]} id={i} chosenId={chosenIncorrId} setChosenId={setChosenIncorrId} />
+        )
+    }
+
     return (
-        <div className={styles.cancel_btn_block}>
-            <a href="./mytests">
-                <button>
-                    <h2>
-                        Отменить
-                    </h2>
-                </button>
-            </a>
+        <div className={styles.block_added_events}>
+            <h3>Ложные события</h3>
+            {renderList}
         </div>
-    )
+    );
 }
 
 const Test_Name_Input = ({testName, setTestName}) => {
@@ -92,14 +159,11 @@ const Test_Name_Input = ({testName, setTestName}) => {
 
 const Inp_name_block = ({testName, setTestName}) => {
     return (
-        <div className={styles.name_cancel_block}>
-            <Test_Name_Input testName={testName} setTestName={setTestName} />
-            <Cancel_button />
-        </div>
+        <Test_Name_Input testName={testName} setTestName={setTestName} />
     )
 }
 
-const Action_block = ({chosenId, setDelEvent, setStatusAdd, setEventDescr, setEventName, eventName, eventDescr}) => {
+const Action_block = ({setEventDescr, setEventName, eventName, eventDescr, setStatusAdd}) => {
 
     const eventNameChange = (e) =>{
         setEventName(e.target.value);
@@ -112,21 +176,6 @@ const Action_block = ({chosenId, setDelEvent, setStatusAdd, setEventDescr, setEv
     const sendDataEvent = ({setStatusAdd}) => {
         setStatusAdd(1);
     }
-
-    let delete_btn = null;
-    let save_btn = <button onClick={()=>{sendDataEvent({setStatusAdd})}}>Добавить</button>;
-    if(chosenId !== -1){
-        delete_btn = <button 
-        className={styles.delete_btn}
-        onClick={()=>{
-            setDelEvent(1);
-        }}
-        >
-            Удалить
-        </button>
-
-        save_btn = <button onClick={()=>{sendDataEvent({setStatusAdd})}}>Сохранить</button>
-    }
     
     return (
         <div className={styles.block_create_event}>
@@ -136,37 +185,54 @@ const Action_block = ({chosenId, setDelEvent, setStatusAdd, setEventDescr, setEv
             type="text"
             value={eventName}
             onChange={eventNameChange}
-            placeholder="Название события"
+            placeholder="Название события..."
             />
 
             <textarea 
             type="text"
             value={eventDescr}
             onChange={eventDescrChange}
-            placeholder="Описание события"
+            placeholder="Описание с использованием верных событий как ключевых слов..."
             />
 
             <div className={styles.block_btn}>
-                {save_btn}
-                {delete_btn}
+                <button>Создать тест</button>
+                <a href="./mytests">
+                <button className={styles.cancel_btn}>
+                    <h2>
+                        Отменить
+                    </h2>
+                </button>
+            </a>
             </div>
         </div>
     )
 }
 
 const Test_table = () => {
-    const [chosenId, setChosenId] = useState(-1);
+    const [chosenCorrId, setChosenCorrId] = useState(-1);
+    const [chosenIncorrId, setChosenIncorrId] = useState(-1);
 
     const [testName, setTestName] = useState('');
 
     const [eventName, setEventName] = useState('');
     const [eventDescr, setEventDescr] = useState('');
-    const [events_lst, setEventsList] = useState([]);
-    
-    const [statusAdd, setStatusAdd] = useState(0);
+
+    const [correct_events_lst, setCorrEventsList] = useState([]);
+    const [incorrect_events_lst, setIncorrEventsList] = useState([]);
+
+    const [correct_event, setCorrEvent] = useState('');
+    const [incorrect_event, setIncorrEvent] = useState('');
+
+    const [add_corr_flag, setAddCorrFlag] = useState(0);
+    const [add_incorr_flag, setAddIncorrFlag] = useState(0);
+
+    const [del_corr_flag, setDelCorrFlag] = useState(0);
+    const [del_incorr_flag, setDelIncorrFlag] = useState(0);
+
     const [falseRender, setFalseRender] = useState(0);
 
-    const [delEvent, setDelEvent] = useState(0);
+    const [statusAdd, setStatusAdd] = useState(0);
 
     useEffect(
         ()=>{
@@ -174,77 +240,108 @@ const Test_table = () => {
                 setFalseRender(0);
             }
             else{
-                if(eventName !== '' && eventDescr !== ''){
-                    if (chosenId === -1){
-                        const new_events = events_lst.map((elem) => elem);
-                        new_events.push([eventName, eventDescr]);
-                        setEventsList(new_events);
+                if(correct_event !== ''){
+                    if (chosenCorrId === -1){
+                        const new_events = correct_events_lst.map((elem) => elem);
+                        new_events.push(correct_event);
+                        setCorrEventsList(new_events);
 
-                        setEventName('');
-                        setEventDescr('');
-                        setStatusAdd(0);
+                        setCorrEvent('');
+                        setAddCorrFlag(0);
                     }
                     else{
-                        const new_events = events_lst.map((elem) => elem);
-                        new_events[chosenId] = [eventName, eventDescr];
-                        setEventsList(new_events);
+                        const new_events = correct_events_lst.map((elem) => elem);
+                        new_events[chosenCorrId] = correct_event;
+                        setCorrEventsList(new_events);
 
-                        setEventName('');
-                        setEventDescr('');
-                        setChosenId(-1);
-                        setStatusAdd(0);
+                        setCorrEvent('');
+                        setChosenCorrId(-1);
+                        setAddCorrFlag(0);
                     }
                 }
                 else{
-                    setStatusAdd(0);
+                    setAddCorrFlag(0);
                 }
-                if(delEvent !== 0){
-                    setEventName('')
-                    setEventDescr('')
-                    setStatusAdd(0);
+
+                if (del_corr_flag !== 0){
+                    setAddCorrFlag(0);
+                    setCorrEvent('');
                     setFalseRender(1);
-                    setDelEvent(0);
+                    setDelCorrFlag(0);
 
                     const new_events = [];
-                    for(let i=0; i<events_lst.length; i++){
-                        if(i !== chosenId){
-                            new_events.push(events_lst[i])
+                    for(let i=0; i<correct_events_lst.length; i++){
+                        if(i !== chosenCorrId){
+                            new_events.push(correct_events_lst[i])
                         }
                     }
-                    setEventsList(new_events);
-                    setChosenId(-1);
+
+                    setCorrEventsList(new_events);
+                    setChosenCorrId(-1);
                 }
             }
         },
-        [statusAdd, delEvent]
-    );
+        [add_corr_flag, del_corr_flag]
+    )
 
     useEffect(
-        () => {
-            if(chosenId !== -1){
-                setEventName(events_lst[chosenId][0])
-                setEventDescr(events_lst[chosenId][1])
+        ()=>{
+            if(falseRender === 1){
+                setFalseRender(0);
             }
+            else{
+                if(incorrect_event !== ''){
+                    if (chosenIncorrId === -1){
+                        const new_events = incorrect_events_lst.map((elem) => elem);
+                        new_events.push(incorrect_event);
+                        setIncorrEventsList(new_events);
+    
+                        setIncorrEvent('');
+                        setAddIncorrFlag(0);
+                    }
+                    else{
+                        if(add_incorr_flag !== 0){
+                            const new_events = incorrect_events_lst.map((elem) => elem);
+                            new_events[chosenIncorrId] = incorrect_event;
+                            setIncorrEventsList(new_events);
+    
+                            setIncorrEvent('');
+                            setChosenIncorrId(-1);
+                            setAddIncorrFlag(0);
+                        }
+                    }
+                }
+                else{
+                    setAddIncorrFlag(0);
+                }
+
+                if (del_incorr_flag !== 0){
+                    setAddIncorrFlag(0);
+                    setIncorrEvent('');
+                    setDelIncorrFlag(0);
+
+                    const new_events = [];
+                    for(let i=0; i<incorrect_events_lst.length; i++){
+                        if(i !== chosenIncorrId){
+                            new_events.push(incorrect_events_lst[i])
+                        }
+                    }
+
+                    setIncorrEventsList(new_events);
+                    setChosenIncorrId(-1);
+                }
+            }
+        }, [add_incorr_flag, del_incorr_flag]
+    )
+
+    useEffect(()=>{
+        if(chosenCorrId !== -1){
+            setCorrEvent(correct_events_lst[chosenCorrId])
         }
-    , [chosenId]);
-
-    // useEffect(
-    //     () => {
-    //         if(chosenId !== -1){
-    //             setEventName('')
-    //             setEventDescr('')
-    //             setStatusAdd(0);
-    //             setFalseRender(1);
-    //             setDelEvent(0);
-
-    //             const new_events = events_lst.map((elem) => elem);
-    //             new_events = new_events.slice(0, chosenId) + new_events.slice(chosenId, new_events.length);
-    //             setEventsList(new_events);
-    //             setChosenId(-1);
-    //         }
-    //     },
-    //     [delEvent]
-    // )
+        if (chosenIncorrId !== -1){
+            setIncorrEvent(incorrect_events_lst[chosenIncorrId])
+        }
+    }, [chosenCorrId, chosenIncorrId])
 
     return (
         <table className={styles.tests_table}>
@@ -252,15 +349,19 @@ const Test_table = () => {
                 <tr>
                     <td>
                         <Inp_name_block testName={testName} setTestName={setTestName}/>
+                        <Action_block setStatusAdd={setStatusAdd} eventDescr={eventDescr} eventName={eventName} setEventDescr={setEventDescr} setEventName={setEventName} />
                     </td>
                     <td>
-                        <Block_rules_save />
+                        <Block_Create_Events
+                        setAddCorrFlag={setAddCorrFlag} setAddIncorrFlag={setAddIncorrFlag} correct_event={correct_event}
+                        setCorrEvent={setCorrEvent} incorrect_event={incorrect_event} setIncorrEvent={setIncorrEvent}
+                        chosenCorrId={chosenCorrId} chosenIncorrId={chosenIncorrId} setDelCorrFlag={setDelCorrFlag} setDelIncorrFlag={setDelIncorrFlag} />
                     </td>
                     <td>
-                        <Action_block setDelEvent={setDelEvent} chosenId={chosenId} statusAdd={statusAdd} setStatusAdd={setStatusAdd} setEventName={setEventName} eventName={eventName} eventDescr={eventDescr} setEventDescr={setEventDescr}/>
+                        <Events_Correct_list chosenCorrId={chosenCorrId} setChosenCorrId={setChosenCorrId} correct_events_lst={correct_events_lst}/>
                     </td>
                     <td>
-                        <Events_list chosenId={chosenId} setChosenId={setChosenId} events_lst={events_lst}/>
+                        <Events_Incorrect_list chosenIncorrId={chosenIncorrId} setChosenIncorrId={setChosenIncorrId} incorrect_events_lst={incorrect_events_lst}/>
                     </td>
                 </tr>
             </tbody>
@@ -272,7 +373,7 @@ const Page_text = () => {
     return (
         <div className={styles.page_text}>
             <h1>Создание теста</h1>
-            <h2>Тип теста: Timeline</h2>
+            <h2>Тип теста: 10 cards</h2>
         </div>
     )
 }
