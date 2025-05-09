@@ -1,6 +1,6 @@
 from pydantic import EmailStr
 
-from models.models import User
+from models.models import User, Test, TestForCreate
 from security.pwdcrypt import encode_password
 
 USER_DATA = {
@@ -14,6 +14,42 @@ USER_DATA = {
         "password": encode_password("password")
         },
     }
+
+TESTS_DATA = {
+    1: {
+        "id": 1,
+        "email": "example@mail.ru",
+        "title": "Первый тест",
+        "type": "Timeline",
+        "event_name": None,
+        "event_description": None,
+        "correct_answers_lst": [],
+        "incorrect_answers_lst": [],
+        "events_list": [
+            {
+                "name": "Name1",
+                "description": "Description1"
+            },
+            {
+                "name": "Name2",
+                "description": "Description2"
+            },
+            {
+                "name": "Name3",
+                "description": "Description3"
+            },
+            {
+                "name": "Name4",
+                "description": "Description4"
+            },
+            {
+                "name": "Name5",
+                "description": "Description5"
+            },
+        ],
+        "question_lst": []
+    }
+}
 
 
 
@@ -30,4 +66,13 @@ def create_user(user: User) -> str:
         new_user["password"] = encode_password(password)
         USER_DATA[email] = new_user
         return "Success"
-    return "Error create user"
+    else:
+        return "User created already"
+
+def create_test(test: TestForCreate) -> str:
+    index_lst = list(TESTS_DATA.keys())
+    index = index_lst[-1] + 1
+    new_test = dict(test)
+    new_test["id"] = index
+    TESTS_DATA[index] = new_test
+    return [TESTS_DATA, USER_DATA]
