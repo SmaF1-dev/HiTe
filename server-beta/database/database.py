@@ -1,6 +1,7 @@
 from pydantic import EmailStr
+from typing import Optional
 
-from models.models import User, Test, TestForCreate
+from models.models import User, Test, TestForCreate, TestCreate
 from security.pwdcrypt import encode_password
 
 USER_DATA = {
@@ -76,3 +77,20 @@ def create_test(test: TestForCreate) -> str:
     new_test["id"] = index
     TESTS_DATA[index] = new_test
     return [TESTS_DATA, USER_DATA]
+
+def get_test_by_id(id: int, email: EmailStr):
+    if id in list(TESTS_DATA.keys()):
+        test = TestCreate(**TESTS_DATA[id])
+        if test.email != email:
+            return "Incorrect user"
+        else:
+            return test
+    else:
+        return "Test is not exist"
+    
+
+def edit_test(test: TestCreate):
+    index = test.id
+    edited_test = dict(test)
+    TESTS_DATA[index] = edited_test
+    return TESTS_DATA
