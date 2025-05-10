@@ -5,7 +5,7 @@ HiTe - platform with unusual interactive Historical Tests
 
 - [ ] [Front-End](front-end)
 - [ ] [Api demo-version](demo-api)
-- [ ] [Actual server](server_beta)
+- [ ] [Actual server](server-beta)
 
 ## Technologies and tools
 - Git — version control system
