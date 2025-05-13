@@ -180,9 +180,7 @@ def get_test_for_pass_by_id(id: int):
             for elem in test.incorrect_answers_lst:
                 lst_answers.append(elem)
             
-            print(lst_answers)
             shuffle(lst_answers)
-            print(lst_answers)
             
             test_for_pass = TestForPass(title=test.title, type=test.type, event_name=test.event_name, 
                                         answers_lst=lst_answers)
