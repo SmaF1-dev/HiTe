@@ -4,8 +4,7 @@ HiTe - platform with unusual interactive Historical Tests
 ### Navigation
 
 - [ ] [Front-End](front-end)
-- [ ] [Api demo-version](demo-api)
-- [ ] [Actual server](server-beta)
+- [ ] [Server](server)
 
 ## Technologies and tools
 - Git — version control system
@@ -33,7 +32,7 @@ HiTe - platform with unusual interactive Historical Tests
   ```
 ## Project structure
 - `front-end/` — the client part of the platform
-- `demo-api/` — demo version of the api
+- `server/` — actual version of the server
 
 ## Project launch
 To run the client side, run:
