@@ -1,28 +1,19 @@
-from fastapi import FastAPI, Depends
-from fastapi.middleware.cors import CORSMiddleware
-from app.database import engine, get_db
-from app import models
-from app.endpoints import auth, tests, profile
-
-# Создаем таблицы в БД
-models.Base.metadata.create_all(bind=engine)
+import uvicorn
+from fastapi import FastAPI
+from routes.about import about
+from routes.login import auth
+from routes.register import register
+from routes.create_test import create
+from routes.edit_test import edit
+from routes.pass_test import passing
 
 app = FastAPI()
+app.include_router(about)
+app.include_router(auth)
+app.include_router(register)
+app.include_router(create)
+app.include_router(edit)
+app.include_router(passing)
 
-# Настройка CORS для Next.js
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Адрес Next.js приложения
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# Подключаем роутеры
-app.include_router(auth.router)
-app.include_router(tests.router)
-app.include_router(profile.router)
-
-@app.get("/")
-def read_root():
-    return {"message": "HITe API is running"}
+if __name__ == "__main__":
+    uvicorn.run(app, host='127.0.0.1', port=8000)
