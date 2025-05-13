@@ -1,7 +1,8 @@
 from pydantic import EmailStr
 from typing import Optional
+from random import shuffle
 
-from models.models import User, Test, TestForCreate, TestCreate
+from models.models import User, TestWithoutResult, TestWithResult, TestForCreate, TestCreate, TestForPass, DefaultQuestionForPass
 from security.pwdcrypt import encode_password
 
 USER_DATA = {
@@ -49,6 +50,72 @@ TESTS_DATA = {
             },
         ],
         "question_lst": []
+    },
+    2: {
+        "id": 2,
+        "email": "example@mail.ru",
+        "title": "Второй тест",
+        "type": "Default",
+        "event_name": None,
+        "event_description": None,
+        "correct_answers_lst": [],
+        "incorrect_answers_lst": [],
+        "events_list": [],
+        "question_lst": [
+            {
+                "question": "Вопрос 1",
+                "correct_answer": "I",
+                "incorrect_answers": ['1', '2', '3']
+            },
+            {
+                "question": "Вопрос 2",
+                "correct_answer": "I",
+                "incorrect_answers": ['1', '2', '3']
+            },
+            {
+                "question": "Вопрос 3",
+                "correct_answer": "I",
+                "incorrect_answers": ['1', '2', '3']
+            }
+        ]
+    }
+}
+
+TESTS_RESULTS = {
+    1: {
+        "test_id": 1,
+        "email_user": "example@mail.ru",
+        "title": "Первый тест",
+        "type": "Timeline",
+        "event_name": None,
+        "event_description": None,
+        "correct_answers_lst": [],
+        "incorrect_answers_lst": [],
+        "events_list": [
+            {
+                "name": "Name1",
+                "description": "Description1"
+            },
+            {
+                "name": "Name2",
+                "description": "Description2"
+            },
+            {
+                "name": "Name3",
+                "description": "Description3"
+            },
+            {
+                "name": "Name4",
+                "description": "Description4"
+            },
+            {
+                "name": "Name5",
+                "description": "Description5"
+            },
+        ],
+        "question_lst": [],
+        "cnt_wrongs": 0,
+        "result": 100
     }
 }
 
@@ -78,7 +145,7 @@ def create_test(test: TestForCreate) -> str:
     TESTS_DATA[index] = new_test
     return [TESTS_DATA, USER_DATA]
 
-def get_test_by_id(id: int, email: EmailStr):
+def get_test_for_edit_by_id(id: int, email: EmailStr):
     if id in list(TESTS_DATA.keys()):
         test = TestCreate(**TESTS_DATA[id])
         if test.email != email:
@@ -88,9 +155,122 @@ def get_test_by_id(id: int, email: EmailStr):
     else:
         return "Test is not exist"
     
+def get_test_for_pass_by_id(id: int):
+    if id in list(TESTS_DATA.keys()):
+        test = TestCreate(**TESTS_DATA[id])
 
+        if test.type == "Timeline":
+            cnt_events = len(test.events_list)
+
+            start_event = test.events_list[0]
+            middle_event = test.events_list[cnt_events//2]
+            end_event = test.events_list[-1]
+
+            lst_events = test.events_list.copy()
+            lst_events.pop(cnt_events//2)
+            lst_events.pop(0)
+            lst_events.pop()
+
+            shuffle(lst_events)
+
+            test_for_pass = TestForPass(title=test.title, type=test.type, start_event = start_event, 
+                                        middle_event=middle_event, end_event=end_event, events_list=lst_events)
+        elif test.type == "10cards":
+            lst_answers = test.correct_answers_lst.copy()
+            for elem in test.incorrect_answers_lst:
+                lst_answers.append(elem)
+            
+            print(lst_answers)
+            shuffle(lst_answers)
+            print(lst_answers)
+            
+            test_for_pass = TestForPass(title=test.title, type=test.type, event_name=test.event_name, 
+                                        answers_lst=lst_answers)
+            
+        else:
+            question_lst = test.question_lst.copy()
+            cnt_question = len(question_lst)
+
+            for i in range(cnt_question):
+                question_block = question_lst[i]
+
+                answers = question_block.incorrect_answers.copy()
+                answers.append(question_block.correct_answer)
+
+                shuffle(answers)
+
+                question_lst[i] = DefaultQuestionForPass(question=question_block.question, answers=answers)
+
+            shuffle(question_lst)
+            test_for_pass = TestForPass(title=test.title, type=test.type, question_lst=question_lst)
+
+        return test_for_pass
+
+
+    else:
+        return "Test is not exist"
+    
+def passing_test(passed_test: TestWithoutResult):
+    if passed_test.type == "10cards":
+        cnt_wrongs = 0
+        idx = passed_test.test_id
+        original_test = TestCreate(**TESTS_DATA[idx])
+
+        for elem in passed_test.correct_answers_lst:
+            if elem not in original_test.correct_answers_lst:
+                cnt_wrongs+=1
+
+        for elem in passed_test.incorrect_answers_lst:
+            if elem not in original_test.incorrect_answers_lst:
+                cnt_wrongs+=1
+        
+        result = int(round(1 - cnt_wrongs/(len(passed_test.incorrect_answers_lst) + len(passed_test.correct_answers_lst)), 2)*100)
+
+    elif passed_test.type == "Timeline":
+        cnt_wrongs = passed_test.cnt_wrongs
+
+        result = int(round(1 - cnt_wrongs/(len(passed_test.events_list)-3), 2)*100)
+
+    else:
+        cnt_wrongs = 0
+        idx = passed_test.test_id
+        original_test = TestCreate(**TESTS_DATA[idx])
+
+        for elem in passed_test.question_lst:
+            question = elem.question
+            corr_answ = elem.correct_answer
+
+            for element in original_test.question_lst:
+                if question == element.question:
+                    if corr_answ != element.correct_answer:
+                        cnt_wrongs +=1
+                    break
+        
+        result = int(round(1-cnt_wrongs/len(passed_test.question_lst), 2)*100)
+     
+    index = len(list(TESTS_RESULTS.keys()))+1
+    TESTS_RESULTS[index] = dict(TestWithResult(result=result, **dict(passed_test)))
+    return TESTS_RESULTS
+
+    
 def edit_test(test: TestCreate):
     index = test.id
-    edited_test = dict(test)
-    TESTS_DATA[index] = edited_test
-    return TESTS_DATA
+    if index in list(TESTS_DATA.keys()):
+        if TESTS_DATA[index]['email'] == test.email:
+            edited_test = dict(test)
+            TESTS_DATA[index] = edited_test
+            return TESTS_DATA
+        else:
+            return "Incorrect user"
+    else:
+        return "Test is not exist"
+
+def get_tests_by_email(email: EmailStr):
+    index_lst = list(TESTS_DATA.keys())
+    tests_lst = []
+
+    for ind in index_lst:
+        if TESTS_DATA[ind]['email'] == email:
+            tests_lst.append(TestCreate(**TESTS_DATA[ind]))
+
+    return tests_lst
