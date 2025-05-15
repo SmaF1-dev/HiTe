@@ -133,9 +133,10 @@ def create_user(user: User) -> str:
         password = new_user["password"]
         new_user["password"] = encode_password(password)
         USER_DATA[email] = new_user
+        print(USER_DATA)
         return "Success"
     else:
-        return "User created already"
+        return "Error"
 
 def create_test(test: TestForCreate) -> str:
     index_lst = list(TESTS_DATA.keys())
