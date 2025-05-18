@@ -1,16 +1,69 @@
+'use client';
+import { useRouter } from 'next/navigation';
 import Link from "next/link"
 import styles from "./main.module.scss"
+import axios from "axios";
+import axiosInstance from "@/app/lib/axios"
+import { toast } from "react-toastify";
+import { useState } from 'react';
 
 const Auth_form = () => {
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const changeEmail = (e) => {
+        setEmail(e.target.value);
+    }
+
+    const changePassword = (e) => {
+        setPassword(e.target.value)
+    }
+
+    const router = useRouter();
+
+
+    const handle_auth = async () => {
+        if (password !== '' && email !== ''){
+            try{
+                const response = await axiosInstance.post("/login",{
+                    email: email,
+                    password: password
+                })
+
+                if (response.status === 200){
+                    toast.success("Добро пожаловать!")
+                    localStorage.setItem('token', response.data["access_token"])
+
+                    setEmail('');
+                    setPassword('');
+                    router.push("/user")
+                } else{
+                    toast.error("Что-то пошло не так.")
+                }
+            }catch (error){
+                if (axios.isAxiosError(error) && error.response){
+                    if (error.response.status === 401){
+                        toast.error("Неправильная почта или пароль");
+                    }else{
+                        toast.error(`Ошибка: ${error.response.data.message || 'Авторизация не удалась'}`)
+                    }
+                }else {
+                    toast.error('Сетевая ошибка');
+                }
+            }
+        }else{
+            toast.error('Не все обязательные поля заполены!')
+        }
+    }
+
     return (
         <div className={styles.auth_form}>
             <h2>Форма авторизации</h2>
             <form>
-                <input type="text" id="email" name="email" placeholder="Почта..."></input>
-                <input type="text" id="password" name="password" placeholder="Пароль..."></input>
-                <Link href="/user">
-                    <button type="submit">Войти</button>
-                </Link>
+                <input type="text" id="email" name="email" value={email} onChange={changeEmail} placeholder="Почта..."></input>
+                <input type="password" id="password" name="password" value={password} onChange={changePassword} placeholder="Пароль..."></input>
+                <button type="button" onClick={handle_auth}>Войти</button>
             </form>
         </div>
     )

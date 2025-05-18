@@ -1,5 +1,5 @@
 'use client'
-import { toast } from "react-toastify"
+import Link from "next/link"
 import styles from "./main.module.scss"
 import { useEffect, useRef, useState } from "react"
 

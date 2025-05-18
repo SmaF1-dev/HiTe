@@ -1,6 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from datetime import date
-from typing import List, Optional
+from typing import Optional
 from enum import Enum
 
 class AuthRequest(BaseModel):
@@ -11,7 +11,7 @@ class User(BaseModel):
     email: EmailStr
     first_name: str
     last_name: str
-    middle_name: str
+    middle_name: str = ''
     birth_date: date
     education: str
     password: str
@@ -31,11 +31,11 @@ class TimelineEvent(BaseModel):
 class DefaultQuestion(BaseModel):
     question: str
     correct_answer: str
-    incorrect_answers: List[str]
+    incorrect_answers: list[str]
 
 class DefaultQuestionForPass(BaseModel):
     question: str
-    answers: List
+    answers: list
 
 class TestInfo(BaseModel):
     title: str
@@ -44,25 +44,26 @@ class TestInfo(BaseModel):
 class Test(TestInfo):
     event_name: Optional[str] = None # 10 cards
     event_description: Optional[str] = None # 10 cards
-    correct_answers_lst: Optional[List[str]] = [] # 10 cards
-    incorrect_answers_lst: Optional[List[str]] = [] # 10 cards
-    events_list: Optional[List[TimelineEvent]] = [] # Timeline
-    question_lst: Optional[List[DefaultQuestion]] = [] # Default
+    correct_answers_lst: Optional[list[str]] = [] # 10 cards
+    incorrect_answers_lst: Optional[list[str]] = [] # 10 cards
+    events_list: Optional[list[TimelineEvent]] = [] # Timeline
+    question_lst: Optional[list[DefaultQuestion]] = [] # Default
 
 class TestForCreate(Test):
     email: EmailStr
 
 class TestCreate(TestForCreate):
     id: int
+    author_name: str
 
 class TestForPass(TestInfo):
     event_name: Optional[str] = None # 10 cards
-    answers_lst: Optional[List[str]] = [] # 10 cards
+    answers_lst: Optional[list[str]] = [] # 10 cards
     start_event: Optional[TimelineEvent] = None # Timeline
     middle_event: Optional[TimelineEvent] = None # Timeline
     end_event: Optional[TimelineEvent] = None # Timeline
-    events_list: Optional[List[TimelineEvent]] = [] # Timeline
-    question_lst: Optional[List[DefaultQuestionForPass]] = [] # Default
+    events_list: Optional[list[TimelineEvent]] = [] # Timeline
+    question_lst: Optional[list[DefaultQuestionForPass]] = [] # Default
 
 class TestPassed(Test):
     cnt_wrongs: Optional[int] = None
@@ -73,3 +74,4 @@ class TestWithoutResult(TestPassed):
 
 class TestWithResult(TestWithoutResult):
     result: int
+    author_name: str
