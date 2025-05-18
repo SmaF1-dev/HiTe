@@ -1,5 +1,7 @@
 'use client'
 import { toast } from "react-toastify"
+import axios from "axios"
+import axiosInstance from '@/app/lib/axios'
 import styles from "./main.module.scss"
 import { useEffect, useRef, useState } from "react"
 
@@ -163,7 +165,7 @@ const Inp_name_block = ({testName, setTestName}) => {
     )
 }
 
-const Action_block = ({setEventDescr, setEventName, eventName, eventDescr, setStatusAdd}) => {
+const Action_block = ({setEventDescr, setEventName, eventName, eventDescr, setStatusAdd, handleCreateTest}) => {
 
     const eventNameChange = (e) =>{
         setEventName(e.target.value);
@@ -196,7 +198,7 @@ const Action_block = ({setEventDescr, setEventName, eventName, eventDescr, setSt
             />
 
             <div className={styles.block_btn}>
-                <button>Создать тест</button>
+                <button type="button" onClick={handleCreateTest}>Создать тест</button>
                 <a href="./mytests">
                 <button className={styles.cancel_btn}>
                     <h2>
@@ -343,13 +345,56 @@ const Test_table = () => {
         }
     }, [chosenCorrId, chosenIncorrId])
 
+    const handleCreateTest =  async () => {
+        const token = localStorage.getItem('token')
+        if (testName !== '' && eventDescr !== '' && eventName !== '' && correct_events_lst.length !== 0 && incorrect_events_lst.length !== 0){
+            try{
+                const response = await axiosInstance.post('/create_test', {
+                    "title": testName,
+                    "type": "10cards",
+                    "event_name": eventName,
+                    "event_description": eventDescr,
+                    "correct_answers_lst": correct_events_lst,
+                    "incorrect_answers_lst": incorrect_events_lst,
+                    "events_list": [],
+                    "question_lst": []
+                })
+
+                if (response.status === 200){
+                    toast.success("Тест успешно создан!");
+                    
+                    setEventDescr('');
+                    setTestName('');
+                    setEventName('');
+                    setCorrEventsList([]);
+                    setIncorrEventsList([]);
+                }else{
+                    toast.error("Что-то не так");
+                }
+            }catch (error){
+                if (axios.isAxiosError(error) && error.response){
+                    if (error.response.status === 401){
+                        toast.error("Вы не авторизованы!");
+                    }else{
+                        toast.error("Что-то пошло не так :(");
+                    }
+                }else{
+                    toast.error("Сетевая ошибка");
+                }
+            }
+
+        }else{
+            toast.error("Не все поля заполнены!")
+        }
+    }
+
     return (
         <table className={styles.tests_table}>
             <tbody>
                 <tr>
                     <td>
                         <Inp_name_block testName={testName} setTestName={setTestName}/>
-                        <Action_block setStatusAdd={setStatusAdd} eventDescr={eventDescr} eventName={eventName} setEventDescr={setEventDescr} setEventName={setEventName} />
+                        <Action_block handleCreateTest={handleCreateTest} setStatusAdd={setStatusAdd} eventDescr={eventDescr} eventName={eventName} setEventDescr={setEventDescr} setEventName={setEventName} />
                     </td>
                     <td>
                         <Block_Create_Events

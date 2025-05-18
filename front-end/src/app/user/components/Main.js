@@ -71,17 +71,9 @@ export const Main = () => {
         try{
             let token = localStorage.getItem('token');
 
-            const response_about = await axiosInstance.get('/aboutme', {
-                "headers": {
-                    "Authorization": 'Bearer ' + token,
-                },
-            })
+            const response_about = await axiosInstance.get('/aboutme', {})
 
-            const response_tests = await axiosInstance.get('/passed_tests', {
-                "headers": {
-                    "Authorization": 'Bearer ' + token,
-                },
-            })
+            const response_tests = await axiosInstance.get('/passed_tests', {})
 
             setName(response_about.data["name"]);
             setOriganization(response_about.data["education"]);
