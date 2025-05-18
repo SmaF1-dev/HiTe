@@ -21,6 +21,7 @@ TESTS_DATA = {
     1: {
         "id": 1,
         "email": "example@mail.ru",
+        "author_name": "John Doe Ivanovich",
         "title": "Первый тест",
         "type": "Timeline",
         "event_name": None,
@@ -54,6 +55,7 @@ TESTS_DATA = {
     2: {
         "id": 2,
         "email": "example@mail.ru",
+        "author_name": "John Doe Ivanovich",
         "title": "Второй тест",
         "type": "Default",
         "event_name": None,
@@ -85,6 +87,7 @@ TESTS_RESULTS = {
     1: {
         "test_id": 1,
         "email_user": "example@mail.ru",
+        "author_name": "John Doe Ivanovich",
         "title": "Первый тест",
         "type": "Timeline",
         "event_name": None,
@@ -143,8 +146,17 @@ def create_test(test: TestForCreate) -> str:
     index = index_lst[-1] + 1
     new_test = dict(test)
     new_test["id"] = index
+    new_test["author_name"] = (USER_DATA[new_test["email"]]["last_name"] + ' ' 
+    + USER_DATA[new_test["email"]]["first_name"] + ' ' + USER_DATA[new_test["email"]]["middle_name"])
     TESTS_DATA[index] = new_test
     return [TESTS_DATA, USER_DATA]
+
+def get_passed_tests_by_email(email: EmailStr):
+    lst_out = []
+    for i in list(TESTS_RESULTS.keys()):
+        if email == TESTS_RESULTS[i]["email_user"]:
+            lst_out.append(TestWithResult(**TESTS_RESULTS[i]))
+    return lst_out
 
 def get_test_for_edit_by_id(id: int, email: EmailStr):
     if id in list(TESTS_DATA.keys()):
@@ -248,7 +260,10 @@ def passing_test(passed_test: TestWithoutResult):
         result = int(round(1-cnt_wrongs/len(passed_test.question_lst), 2)*100)
      
     index = len(list(TESTS_RESULTS.keys()))+1
-    TESTS_RESULTS[index] = dict(TestWithResult(result=result, **dict(passed_test)))
+    TESTS_RESULTS[index] = dict(TestWithResult(result=result, **dict(passed_test), 
+                                               author_name=USER_DATA[passed_test.email_user]["last_name"] + ' ' 
+                                               + USER_DATA[passed_test.email_user]["first_name"] + ' '
+                                               + USER_DATA[passed_test.email_user]["middle_name"]))
     return TESTS_RESULTS
 
     

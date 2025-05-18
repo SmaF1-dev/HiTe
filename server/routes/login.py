@@ -12,4 +12,5 @@ async def login(user: AuthRequest) -> dict:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
 
     return {"access_token": create_jwt_token(authenticated_user),
-            "token_type": "bearer"}
+            "token_type": "bearer",
+            "user": authenticated_user}

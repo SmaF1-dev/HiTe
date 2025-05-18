@@ -1,0 +1,260 @@
+@media (min-width: 900px){
+
+    .block_added_events{
+        width: 20vw;
+        height: auto;
+        padding: 2vh 2vw;
+        border: 1.5px solid var(--stroke-clr);
+        border-radius: 20px;
+        text-align: center;
+
+        h3{
+            font-size: 120%;
+            font-weight: 700;
+        }
+    }
+
+    .block_add_event{
+        width: 90%;
+        height: auto;
+        padding: 2vh 2vw;
+        border: 1.5px solid var(--stroke-clr);
+        border-radius: 20px;
+        text-align: center;
+        margin: 2vh auto;
+
+        h3{
+            font-size: 110%;
+            font-weight: 700;
+
+        }
+
+        input{
+            width: 100%;
+            min-height: 5vh;
+            border: 1px solid var(--stroke-clr);
+            border-radius: 20px;
+            padding: 1vh;
+            margin: 2vh 0;
+        }
+
+        button{
+            width: 45%;
+            font-size: 100%;
+            font-weight: 700;
+            border: 1px solid var(--stroke-clr);
+            border-radius: 20px;
+            padding: 6px;
+            margin: auto 0.5vw;
+            transition: 0.5s;
+
+            &:hover{
+                background-color: var(--foreground-clr);
+                color: var(--background-clr);
+                transition: 0.5s;
+            }
+        }
+
+        .delete_btn{
+            width: 45%;
+            font-size: 100%;
+            font-weight: 700;
+            border: 1px solid var(--red-clr);
+            color: var(--red-clr);
+            background-color: var(--background-clr);
+            border-radius: 20px;
+            padding: 6px;
+            margin: auto 0.5vw;
+            transition: 0.5s;
+
+            &:hover{
+                background-color: var(--red-clr);
+                color: var(--background-clr);
+                transition: 0.5s;
+            }
+        }
+    }
+
+    .block_create_event{
+        width: 25vw;
+        min-height: 40vh;
+        border: 1.5px solid var(--stroke-clr);
+        border-radius: 20px;
+        padding: 2vh 2vw;
+        margin: 1vh -1vw 1vh 2vw;
+        text-align: center;
+
+        h3{
+            font-size: 120%;
+            font-weight: 700;
+            margin-bottom: 1vh;
+        }
+
+        input{
+            width: 90%;
+            min-height: 20%;
+            padding: 0.5vh 1vw;
+            border-radius: 20px;
+            border: 1.5px solid var(--stroke-clr);
+            margin-top: 1vh;
+        }
+
+        textarea{
+            width: 90%;
+            min-height: 20vh;
+            padding: 1vh 1vw;
+            border-radius: 20px;
+            border: 1.5px solid var(--stroke-clr);
+            margin-top: 1vh;
+        }
+
+        .block_btn{
+            display: inline;
+        }
+
+        button{
+            width: 10vw;
+            min-height: 5vh;
+            border-radius: 20px;
+            border: 1.5px solid var(--stroke-clr);
+            display: inline;
+            color: var(--stroke-clr);
+            background-color: var(--background-clr);
+            margin: 1.5vh;
+            font-size: 100%;
+            font-weight: 700;
+
+            &:hover{
+                background-color: var(--stroke-clr);
+                color: var(--background-clr);
+                transition: 0.5s;
+            }
+        }
+
+        .cancel_btn{
+            width: 10vw;
+            min-height: 5vh;
+            border-radius: 20px;
+            border: 1.5px solid var(--red-clr);
+            display: inline;
+            color: var(--red-clr);
+            background-color: var(--background-clr);
+            margin: 0;
+            font-size: 100%;
+            font-weight: 700;
+
+            &:hover{
+                background-color: var(--red-clr);
+                color: var(--background-clr);
+                transition: 0.5s;
+            }
+        }
+
+        .cancel_btn_block {
+            width: 100%;
+            height: auto;
+            display: inline;
+        
+            button{
+                width: 8vw;
+                min-height: 5vh;
+                display: block;
+                border: 1.5px solid var(--red-clr);
+                border-radius: 20px;
+                font-size: 100%;
+                font-weight: 700;
+                display: inline;
+                color: var(--red-clr);
+                background-color: var(--background-clr);
+        
+                &:hover {
+                    transition: 0.5s;
+                    color: var(--background-clr);
+                    border: 1.5px solid var(--red-clr);
+                    background-color: var(--red-clr);
+                }
+            }
+        }
+
+    }
+
+    .block_for_pick {
+        width: 90%;
+        height: auto;
+        margin: 1vh auto;
+
+        button{
+            width: 100%;
+            height: 100%;
+            border: 1.5px solid var(--foreground-clr);
+            border-radius: 20px;
+            font-size: 100%;
+            font-weight: 700;
+            margin: 0 auto;
+            padding: 1vh 1vw;
+            color: var(--foreground-clr);
+            background-color: var(--background-clr);
+
+            &:hover {
+                transition: 0.5s;
+                color: var(--background-clr);
+                border: 1.5px solid var(--selected-clr);
+                background-color: var(--selected-clr);
+            }
+        }
+    }
+
+    .block_picked {
+        width: 90%;
+        height: auto;
+        margin: 1vh auto;
+
+        button{
+            width: 100%;
+            height: 100%;
+            border: 1.5px solid var(--selected-clr);
+            border-radius: 20px;
+            font-size: 100%;
+            font-weight: 700;
+            margin: 0 auto;
+            padding: 1vh 1vw;
+            color: var(--background-clr);
+            background-color: var(--selected-clr);
+        }
+    }
+
+    .block_inp_name{
+        width: 25vw;
+        height: 6.5vh;
+        font-size: 110%;
+        margin: 1vh -1vw 1vh 2vw;
+    
+        input{
+            width: 100%;
+            height: 100%;
+            padding: 2vh;
+            border-radius: 20px;
+            border: 1.5px solid var(--stroke-clr);
+        }
+    }
+
+    .tests_table {
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    .page_text {
+        display: block;
+        margin: 4vh 4vw;
+
+        h1{
+            font-size: 200%;
+            font-weight: 700;
+        }
+
+        h2{
+            font-size: 120%;
+        }
+    }
+}
