@@ -1,6 +1,9 @@
 'use client'
 import Link from "next/link"
 import styles from "./main.module.scss"
+import { toast } from "react-toastify"
+import axios from "axios"
+import axiosInstance from '@/app/lib/axios'
 import { useEffect, useRef, useState } from "react"
 
 const Added_question = ({ name, id, chosenId, setChosenId }) => {
@@ -78,7 +81,7 @@ const Test_Name_Input = ({testName, setTestName}) => {
       </div>
     )}
 
-const Inp_name_block = ({testName, setTestName}) => {
+const Inp_name_block = ({testName, setTestName, handeCreateTest}) => {
     return (
         <div className={styles.name_cancel_block}>
             <Test_Name_Input testName={testName} setTestName={setTestName} />
@@ -90,7 +93,7 @@ const Inp_name_block = ({testName, setTestName}) => {
                                 <Cancel_button />
                             </td>
                             <td>
-                                <button>Создать</button>
+                                <button type="button" onClick={handeCreateTest}>Создать</button>
                             </td>
                         </tr>
                     </tbody>
@@ -320,12 +323,59 @@ const Test_table = () => {
         }
     , [chosenId]);
 
+    const handeCreateTest = async () => {
+        if (testName !== '' && questions_lst.length !== 0){
+            try{
+                const new_questions = [];
+                for (let i=0; i<questions_lst.length; i++){
+                    new_questions.push(
+                        {
+                            question: questions_lst[i]["question"],
+                            correct_answer: questions_lst[i]['corrAnsw'],
+                            incorrect_answers: [questions_lst[i]['incorrAnswFirst'], questions_lst[i]['incorrAnswSecond'], questions_lst[i]['incorrAnswThird']]
+                        }
+                    )
+                }
+                const response = await axiosInstance.post('/create_test', {
+                    "title": testName,
+                    "type": "Default",
+                    "event_name": '',
+                    "event_description": '',
+                    "correct_answers_lst": [],
+                    "incorrect_answers_lst": [],
+                    "events_list": [],
+                    "question_lst": new_questions
+                })
+
+                if (response.status === 200){
+                    toast.success("Тест создан!");
+                    setTestName('');
+                    setQuestionsList([]);
+                }else{
+                    toast.error("Что-то не так");
+                }
+            }catch (error){
+                if (axios.isAxiosError(error) && error.response){
+                    if (error.response.status === 401){
+                        toast.error("Вы не авторизованы!");
+                    }else{
+                        toast.error("Что-то пошло не так :(")
+                    }
+                }else{
+                    toast.error("Сетевая ошибка")
+                }
+            }
+        }else{
+            toast.error("Не все поля заполнены!")
+        }
+    }
+
     return (
         <table className={styles.tests_table}>
             <tbody>
                 <tr>
                     <td>
-                        <Inp_name_block testName={testName} setTestName={setTestName}/>
+                        <Inp_name_block handeCreateTest={handeCreateTest} testName={testName} setTestName={setTestName}/>
                     </td>
                     <td>
                         <Action_block 

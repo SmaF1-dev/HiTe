@@ -1,5 +1,10 @@
+'use client'
 import Link from "next/link"
 import styles from "./main.module.scss"
+import axios from "axios"
+import axiosInstance from '@/app/lib/axios'
+import { useEffect, useState } from "react"
+import { toast } from "react-toastify"
 
 const Create_panel = () => {
     return (
@@ -35,18 +40,69 @@ const Block_with_test = ({name, type, src}) => {
 }
 
 const All_tests = () => {
+    const [myTestsList_1, setMyTestsList_1] = useState([]);
+    const [myTestsList_2, setMyTestsList_2] = useState([]);
+    const [myTestsList_3, setMyTestsList_3] = useState([]);
+
+    const handleGetMyTests = async () => {
+        try{
+            const tests_1 = [];
+            const tests_2 = [];
+            const tests_3 = [];
+            const response = await axiosInstance.get('/my_tests', {});
+            if (response.status === 200){
+                for (let i=0; i<response.data.length; i++){
+                    if (i%3===0){
+                        tests_1.push(
+                            <Block_with_test name={response.data[i]["title"]} type={response.data[i]["type"]} 
+                            src={"./edit_test/" + String(response.data[i]["id"])} key={i}/>
+                    )}else if (i%3===1){
+                        tests_2.push(
+                            <Block_with_test name={response.data[i]["title"]} type={response.data[i]["type"]} 
+                            src={"./edit_test/" + String(response.data[i]["id"])} key={i}/>
+                    )}else{
+                        tests_3.push(
+                            <Block_with_test name={response.data[i]["title"]} type={response.data[i]["type"]} 
+                            src={"./edit_test/" + String(response.data[i]["id"])} key={i}/>
+                    )
+                    }
+                }
+                setMyTestsList_1(tests_1);
+                setMyTestsList_2(tests_2);
+                setMyTestsList_3(tests_3);
+            }else{
+                toast.error("Что-то не так");
+            }
+        }catch (error){
+            if (axios.isAxiosError(error) && error.response){
+                if (error.response.status === 401){
+                    router.push('/authorization')
+                    toast.error("Вы не авторизованы!")
+                }else{
+                    toast.error("Что-то не так.")
+                }
+            }else{
+                toast.error("Сетевая ошибка'")
+            }
+        }
+    }
+
+    useEffect(()=>{
+        handleGetMyTests();
+    }, [true]);
+
     return (
         <table className={styles.tests_table}>
             <tbody>
                 <tr>
                     <td>
-                        <Block_with_test name="Распад СССР" type="Timeline" src="./"/>
+                        {myTestsList_1}
                     </td>
                     <td>
-                        <Block_with_test name="Первая мировая война" type="10 cards" src="./"/>
+                        {myTestsList_2}
                     </td>
                     <td>
-                        <Block_with_test name="Древняя русь" type="Timeline" src="./"/>
+                        {myTestsList_3}
                     </td>
                 </tr>
             </tbody>
