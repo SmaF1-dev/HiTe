@@ -2,15 +2,18 @@
 import Link from "next/link"
 import styles from "./main.module.scss"
 import { useEffect, useRef, useState } from "react"
+import { toast } from "react-toastify"
+import axios from "axios"
+import axiosInstance from '@/app/lib/axios'
 
-const Block_rules_save = () => {
+const Block_rules_save = ({handleCreateTest}) => {
     return (
         <div className={styles.rules_block}>
             <h2>Правила создания теста</h2>
             <p>Для создания теста типа Timeline Вам необходимо заполнить форму справа. 
                 После нажатия кнопки “Добавить” событие добавится в конец списка. 
                 Порядок событий должен быть от раннего к позднему.</p>
-            <button>Сохранить</button>
+            <button type="button" onClick={handleCreateTest}>Сохранить</button>
         </div>
     )
 }
@@ -69,14 +72,6 @@ const Cancel_button = () => {
 const Test_Name_Input = ({testName, setTestName}) => {
     const handleChange = (e) => {
       setTestName(e.target.value);
-    };
-  
-    const handleSubmit = () => {
-      // Сохранение в localStorage
-      // localStorage.setItem('testName', testName);
-      
-      // Или отправка на API
-      // fetch('/api/tests', { method: 'POST', body: JSON.stringify({ name: testName }) })
     };
   
     return (
@@ -228,6 +223,52 @@ const Test_table = () => {
         }
     , [chosenId]);
 
+    const handleCreateTest = async () => {
+        if (events_lst.length > 0 && testName!==''){
+            try{
+                const new_lst = [];
+                for (let i=0; i<events_lst.length; i++){
+                    new_lst.push(
+                        {
+                            name: events_lst[i][0],
+                            description: events_lst[i][1]
+                        }
+                    )
+                }
+                const response = await axiosInstance.post('/create_test', {
+                    "title": testName,
+                    "type": "Timeline",
+                    "event_name": "",
+                    "event_description": "",
+                    "correct_answers_lst": [],
+                    "incorrect_answers_lst": [],
+                    "events_list": new_lst,
+                    "question_lst": []
+                })
+
+                if (response.status === 200){
+                    toast.success("Тест создан!");
+                    setTestName('');
+                    setEventsList([]);
+                }else{
+                    toast.error('Что-то не так');
+                }
+            }catch (error){
+                if (axios.isAxiosError(error) && error.response){
+                    if (error.response.status === 401){
+                        toast.error("Вы не авторизованы!");
+                    }else{
+                        toast.error("Что-то пошло не так :(");
+                    }
+                }else{
+                    toast.error("Сетевая ошибка");
+                }
+            }
+        }else{
+            toast.error("Не все поля заполнены!");
+        }
+    }
+
     return (
         <table className={styles.tests_table}>
             <tbody>
@@ -236,7 +277,7 @@ const Test_table = () => {
                         <Inp_name_block testName={testName} setTestName={setTestName}/>
                     </td>
                     <td>
-                        <Block_rules_save />
+                        <Block_rules_save handleCreateTest={handleCreateTest}/>
                     </td>
                     <td>
                         <Action_block setDelEvent={setDelEvent} chosenId={chosenId} statusAdd={statusAdd} setStatusAdd={setStatusAdd} setEventName={setEventName} eventName={eventName} eventDescr={eventDescr} setEventDescr={setEventDescr}/>

@@ -1,7 +1,11 @@
 'use client'
 import Link from "next/link"
 import styles from "./main.module.scss"
+import { toast } from "react-toastify"
+import axios from "axios"
+import axiosInstance from '@/app/lib/axios'
 import { useEffect, useRef, useState } from "react"
+import { useParams } from "next/navigation"
 
 const Block_Create_Incorrect_Event = ({setDelIncorrFlag, incorrect_event, setIncorrectEvent, setAddIncorrFlag, chosenIncorrId}) => {
 
@@ -163,7 +167,7 @@ const Inp_name_block = ({testName, setTestName}) => {
     )
 }
 
-const Action_block = ({setEventDescr, setEventName, eventName, eventDescr, setStatusAdd}) => {
+const Action_block = ({handleEditTest, setEventDescr, setEventName, eventName, eventDescr, setStatusAdd}) => {
 
     const eventNameChange = (e) =>{
         setEventName(e.target.value);
@@ -196,7 +200,7 @@ const Action_block = ({setEventDescr, setEventName, eventName, eventDescr, setSt
             />
 
             <div className={styles.block_btn}>
-                <button>Создать тест</button>
+                <button type="button" onClick={async () => {await handleEditTest()}}>Сохранить тест</button>
                 <a href="./mytests">
                 <button className={styles.cancel_btn}>
                     <h2>
@@ -230,14 +234,19 @@ const Test_table = () => {
     const [del_corr_flag, setDelCorrFlag] = useState(0);
     const [del_incorr_flag, setDelIncorrFlag] = useState(0);
 
-    const [falseRender, setFalseRender] = useState(0);
+    const [falseRender, setFalseRender] = useState(1);
 
     const [statusAdd, setStatusAdd] = useState(0);
+
+    const params = useParams();
+    const testId = String(params?.id);
+    
 
     useEffect(
         ()=>{
             if(falseRender === 1){
                 setFalseRender(0);
+
             }
             else{
                 if(correct_event !== ''){
@@ -284,10 +293,32 @@ const Test_table = () => {
         [add_corr_flag, del_corr_flag]
     )
 
+    const handleGetInfo = async () => {
+        try{
+            const response = await axiosInstance.get('/edit_test/'+testId);
+            if (response.status === 200){
+                setTestName(response.data["title"]);
+                setEventName(response.data["event_name"]);
+                setEventDescr(response.data["event_description"]);
+                setCorrEventsList(response.data["correct_answers_lst"]);
+                setIncorrEventsList(response.data["incorrect_answers_lst"]);
+            }else{
+                toast.error("Что-то не так");
+            }
+        }catch (error){
+            if (axios.isAxiosError(error) && error.response){
+                toast.error('Что-то пошло не так :(');
+            }else{
+                toast.error("Сетевая ошибка");
+            }
+        }
+    }
+
     useEffect(
         ()=>{
             if(falseRender === 1){
                 setFalseRender(0);
+                handleGetInfo();
             }
             else{
                 if(incorrect_event !== ''){
@@ -343,13 +374,49 @@ const Test_table = () => {
         }
     }, [chosenCorrId, chosenIncorrId])
 
+    const handleEditTest =  async () => {
+        if (falseRender==0 && testName !== '' && eventDescr !== '' && eventName !== '' && correct_events_lst.length !== 0 && incorrect_events_lst.length !== 0){
+            try{
+                const response = await axiosInstance.post('/edit_test/'+testId, {
+                    "title": testName,
+                    "type": "10cards",
+                    "event_name": eventName,
+                    "event_description": eventDescr,
+                    "correct_answers_lst": correct_events_lst,
+                    "incorrect_answers_lst": incorrect_events_lst,
+                    "events_list": [],
+                    "question_lst": []
+                })
+
+                if (response.status === 200){
+                    toast.success("Тест успешно отредактирован!");
+                }else{
+                    toast.error("Что-то не так");
+                }
+            }catch (error){
+                if (axios.isAxiosError(error) && error.response){
+                    if (error.response.status === 401){
+                        toast.error("Вы не авторизованы!");
+                    }else{
+                        toast.error("Что-то пошло не так :(");
+                    }
+                }else{
+                    toast.error("Сетевая ошибка");
+                }
+            }
+
+        }else{
+            toast.error("Не все поля заполнены!")
+        }
+    }
+
     return (
         <table className={styles.tests_table}>
             <tbody>
                 <tr>
                     <td>
                         <Inp_name_block testName={testName} setTestName={setTestName}/>
-                        <Action_block setStatusAdd={setStatusAdd} eventDescr={eventDescr} eventName={eventName} setEventDescr={setEventDescr} setEventName={setEventName} />
+                        <Action_block handleEditTest={handleEditTest} setStatusAdd={setStatusAdd} eventDescr={eventDescr} eventName={eventName} setEventDescr={setEventDescr} setEventName={setEventName} />
                     </td>
                     <td>
                         <Block_Create_Events
@@ -372,7 +439,7 @@ const Test_table = () => {
 const Page_text = () => {
     return (
         <div className={styles.page_text}>
-            <h1>Создание теста</h1>
+            <h1>Редактирование теста</h1>
             <h2>Тип теста: 10 cards</h2>
         </div>
     )

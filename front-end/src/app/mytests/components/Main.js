@@ -52,19 +52,17 @@ const All_tests = () => {
             const response = await axiosInstance.get('/my_tests', {});
             if (response.status === 200){
                 for (let i=0; i<response.data.length; i++){
+                    let pathForAdd = '/edit' + response.data[i]["type"].toLowerCase() + '/' + String(response.data[i]["id"]);
                     if (i%3===0){
-                        tests_1.push(
-                            <Block_with_test name={response.data[i]["title"]} type={response.data[i]["type"]} 
-                            src={"./edit_test/" + String(response.data[i]["id"])} key={i}/>
-                    )}else if (i%3===1){
-                        tests_2.push(
-                            <Block_with_test name={response.data[i]["title"]} type={response.data[i]["type"]} 
-                            src={"./edit_test/" + String(response.data[i]["id"])} key={i}/>
-                    )}else{
-                        tests_3.push(
-                            <Block_with_test name={response.data[i]["title"]} type={response.data[i]["type"]} 
-                            src={"./edit_test/" + String(response.data[i]["id"])} key={i}/>
-                    )
+                        tests_1.push(<Block_with_test name={response.data[i]["title"]} type={response.data[i]["type"]} 
+                            src={pathForAdd} key={i}/>);
+                    }else if (i%3===1){
+                        tests_2.push(<Block_with_test name={response.data[i]["title"]} type={response.data[i]["type"]} 
+                            src={pathForAdd} key={i}/>);
+                    }
+                    else{
+                        tests_3.push(<Block_with_test name={response.data[i]["title"]} type={response.data[i]["type"]} 
+                            src={pathForAdd} key={i}/>);
                     }
                 }
                 setMyTestsList_1(tests_1);
