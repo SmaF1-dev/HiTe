@@ -12,5 +12,6 @@ def get_test_info(id_test: int, token_data: AuthUser = Depends(get_authuser_from
 
 @edit.post('/edit_test/{id_test}')
 def submit_edited_test(id_test: int, test: Test, token_data: AuthUser = Depends(get_authuser_from_token)):
-    edited_test = TestCreate(id = id_test, email=token_data.email, **dict(test))
+    edited_test = TestCreate(id = id_test, author_name=(token_data.last_name + ' ' + token_data.first_name + ' ' + token_data.middle_name), 
+                             email=token_data.email, **dict(test))
     return edit_test(edited_test)
