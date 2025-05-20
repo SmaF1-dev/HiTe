@@ -119,7 +119,7 @@ TESTS_RESULTS = {
         "test_id": 1,
         "email_user": "example@mail.ru",
         "author_name": "Лютый Никита Артемович",
-        "title": "Первый тест",
+        "title": "История освоения космоса",
         "type": "Timeline",
         "event_name": None,
         "event_description": None,
@@ -127,24 +127,32 @@ TESTS_RESULTS = {
         "incorrect_answers_lst": [],
         "events_list": [
             {
-                "name": "Name1",
-                "description": "Description1"
+                "name": "Запуск «Спутника-1»",
+                "description": "Запуск первого искусственного спутника Земли (СССР, 1957г.)"
             },
             {
-                "name": "Name2",
-                "description": "Description2"
+                "name": "Полет Юрия Гагарина",
+                "description": "Первый человек в космосе (1961 г.)."
             },
             {
-                "name": "Name3",
-                "description": "Description3"
+                "name": "Программа «Аполлон»",
+                "description": "Высадка на Луну (Нил Армстронг, 1969 г.)"
             },
             {
-                "name": "Name4",
-                "description": "Description4"
+                "name": "Запуск «Союз-Аполлон»",
+                "description": "Первая международная стыковка (1975 г.)."
             },
             {
-                "name": "Name5",
-                "description": "Description5"
+                "name": "Старт программы «Спейс Шаттл»",
+                "description": "Старт создания американского многоразового транспортного космического корабля (1981 г.)."
+            },
+            {
+                "name": "Запуск станции «Мир»",
+                "description": "Первая модульная орбитальная станция (1986 г.)."
+            },
+            {
+                "name": "Начало работы МКС",
+                "description": "Начало работы международного космического проекта (1998 г.)."
             },
         ],
         "question_lst": [],
@@ -319,3 +327,8 @@ def get_tests_by_email(email: EmailStr):
             tests_lst.append(TestCreate(**TESTS_DATA[ind]))
 
     return tests_lst
+
+def get_all_tests(email: EmailStr):
+    index_lst = list(TESTS_DATA.keys())
+    all_tests = list(map(lambda x: TestCreate(**TESTS_DATA[x]), index_lst))
+    return all_tests
