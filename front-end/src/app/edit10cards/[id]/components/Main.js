@@ -201,13 +201,13 @@ const Action_block = ({handleEditTest, setEventDescr, setEventName, eventName, e
 
             <div className={styles.block_btn}>
                 <button type="button" onClick={async () => {await handleEditTest()}}>Сохранить тест</button>
-                <a href="./mytests">
-                <button className={styles.cancel_btn}>
-                    <h2>
-                        Отменить
-                    </h2>
-                </button>
-            </a>
+                <a href="/mytests">
+                    <button type="button" className={styles.cancel_btn}>
+                        <h2>
+                            Отменить
+                        </h2>
+                    </button>
+                </a>
             </div>
         </div>
     )
