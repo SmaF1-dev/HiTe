@@ -3,7 +3,7 @@ from typing import List
 
 from models.models import AuthUser, TestCreate, TestWithResult
 from security.security import get_authuser_from_token
-from database.database import get_tests_by_email, get_passed_tests_by_email
+from database.database import get_tests_by_email, get_passed_tests_by_email, get_all_tests
 
 about = APIRouter()
 
@@ -21,4 +21,9 @@ def get_my_tests(token_data: AuthUser = Depends(get_authuser_from_token)) -> Lis
 @about.get("/passed_tests")
 def get_passed_tests(token_data: AuthUser = Depends(get_authuser_from_token)) -> List[TestWithResult]:
     tests_lst = get_passed_tests_by_email(token_data.email)
+    return tests_lst
+
+@about.get("/all_tests")
+def get_tests_for_pass(token_data: AuthUser = Depends(get_authuser_from_token)) -> List[TestCreate]:
+    tests_lst = get_all_tests(token_data.email)
     return tests_lst
