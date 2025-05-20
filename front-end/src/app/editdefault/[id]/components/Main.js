@@ -5,6 +5,7 @@ import { toast } from "react-toastify"
 import axios from "axios"
 import axiosInstance from '@/app/lib/axios'
 import { useEffect, useRef, useState } from "react"
+import { useParams } from "next/navigation"
 
 const Added_question = ({ name, id, chosenId, setChosenId }) => {
     const [style_block, setStyle] = useState(styles.block_for_pick);
@@ -46,7 +47,7 @@ const Questions_lst = ({chosenId, setChosenId, questions_lst}) => {
 const Cancel_button = () => {
     return (
         <div className={styles.cancel_btn_block}>
-            <a href="./mytests">
+            <a href="/mytests">
                 <button>
                     <h2>
                         Отменить
@@ -81,7 +82,7 @@ const Test_Name_Input = ({testName, setTestName}) => {
       </div>
     )}
 
-const Inp_name_block = ({testName, setTestName, handeCreateTest}) => {
+const Inp_name_block = ({testName, setTestName, handleEditTest}) => {
     return (
         <div className={styles.name_cancel_block}>
             <Test_Name_Input testName={testName} setTestName={setTestName} />
@@ -93,7 +94,7 @@ const Inp_name_block = ({testName, setTestName, handeCreateTest}) => {
                                 <Cancel_button />
                             </td>
                             <td>
-                                <button type="button" onClick={handeCreateTest}>Создать</button>
+                                <button type="button" onClick={async () => {await handleEditTest()}}>Сохранить</button>
                             </td>
                         </tr>
                     </tbody>
@@ -233,14 +234,49 @@ const Test_table = () => {
     const [incorrAnswThird, setIncorrAnswThird] = useState('');
     
     const [statusAdd, setStatusAdd] = useState(0);
-    const [falseRender, setFalseRender] = useState(0);
+    const [falseRender, setFalseRender] = useState(1);
 
     const [delEvent, setDelEvent] = useState(0);
+
+    const params = useParams();
+    const testId = String(params?.id);
+
+    const handleGetInfo = async () => {
+        try{
+            const response = await axiosInstance.get('/edit_test/'+testId);
+            if (response.status === 200){
+                setTestName(response.data["title"]);
+                const question_lst = response.data["question_lst"]
+                const new_question_lst = [];
+                for (let i=0; i<question_lst.length; i++){
+                    new_question_lst.push(
+                        {
+                            question: question_lst[i]["question"],
+                            corrAnsw: question_lst[i]['correct_answer'],
+                            incorrAnswFirst: question_lst[i]['incorrect_answers'][0],
+                            incorrAnswSecond: question_lst[i]['incorrect_answers'][1],
+                            incorrAnswThird: question_lst[i]['incorrect_answers'][2]
+                        }
+                    )
+                }
+                setQuestionsList(new_question_lst);
+            }else{
+                toast.error("Что-то не так");
+            }
+        }catch (error){
+            if (axios.isAxiosError(error) && error.response){
+                toast.error('Что-то пошло не так :(');
+            }else{
+                toast.error("Сетевая ошибка");
+            }
+        }
+    }
 
     useEffect(
         ()=>{
             if(falseRender === 1){
                 setFalseRender(0);
+                handleGetInfo();
             }
             else{
                 if(question !== '' && corrAnsw !== '' && incorrAnswFirst !== '' && incorrAnswSecond !== '' && incorrAnswThird!==''){
@@ -323,7 +359,7 @@ const Test_table = () => {
         }
     , [chosenId]);
 
-    const handeCreateTest = async () => {
+    const handleEditTest = async () => {
         if (testName !== '' && questions_lst.length !== 0){
             try{
                 const new_questions = [];
@@ -336,7 +372,7 @@ const Test_table = () => {
                         }
                     )
                 }
-                const response = await axiosInstance.post('/create_test', {
+                const response = await axiosInstance.post('/edit_test/'+testId, {
                     "title": testName,
                     "type": "Default",
                     "event_name": '',
@@ -348,9 +384,7 @@ const Test_table = () => {
                 })
 
                 if (response.status === 200){
-                    toast.success("Тест создан!");
-                    setTestName('');
-                    setQuestionsList([]);
+                    toast.success("Тест отредактирован!");
                 }else{
                     toast.error("Что-то не так");
                 }
@@ -375,7 +409,7 @@ const Test_table = () => {
             <tbody>
                 <tr>
                     <td>
-                        <Inp_name_block handeCreateTest={handeCreateTest} testName={testName} setTestName={setTestName}/>
+                        <Inp_name_block handleEditTest={handleEditTest} testName={testName} setTestName={setTestName}/>
                     </td>
                     <td>
                         <Action_block 
@@ -398,7 +432,7 @@ const Test_table = () => {
 const Page_text = () => {
     return (
         <div className={styles.page_text}>
-            <h1>Создание теста</h1>
+            <h1>Редактирование теста</h1>
             <h2>Тип теста: Default</h2>
         </div>
     )

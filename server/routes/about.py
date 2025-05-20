@@ -9,7 +9,7 @@ about = APIRouter()
 
 @about.get("/aboutme")
 def get_info(token_data: AuthUser = Depends(get_authuser_from_token)) -> dict:
-    return {"name": token_data.first_name + ' ' + token_data.last_name + ' ' + token_data.middle_name,
+    return {"name": token_data.last_name + ' ' + token_data.first_name + ' ' + token_data.middle_name,
             "education": token_data.education,
             "birth_date": token_data.birth_date}
 

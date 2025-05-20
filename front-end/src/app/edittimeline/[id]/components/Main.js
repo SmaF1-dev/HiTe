@@ -5,15 +5,16 @@ import { useEffect, useRef, useState } from "react"
 import { toast } from "react-toastify"
 import axios from "axios"
 import axiosInstance from '@/app/lib/axios'
+import { useParams } from "next/navigation"
 
-const Block_rules_save = ({handleCreateTest}) => {
+const Block_rules_save = ({handleEditTest}) => {
     return (
         <div className={styles.rules_block}>
-            <h2>Правила создания теста</h2>
-            <p>Для создания теста типа Timeline Вам необходимо заполнить форму справа. 
+            <h2>Правила редактирования теста</h2>
+            <p>Для редактирования теста типа Timeline Вам необходимо заполнить форму справа. 
                 После нажатия кнопки “Добавить” событие добавится в конец списка. 
                 Порядок событий должен быть от раннего к позднему.</p>
-            <button type="button" onClick={handleCreateTest}>Сохранить</button>
+            <button type="button" onClick={async () => { await handleEditTest() }}>Сохранить</button>
         </div>
     )
 }
@@ -58,7 +59,7 @@ const Events_list = ({chosenId, setChosenId, events_lst}) => {
 const Cancel_button = () => {
     return (
         <div className={styles.cancel_btn_block}>
-            <a href="./mytests">
+            <a href="/mytests">
                 <button>
                     <h2>
                         Отменить
@@ -159,14 +160,41 @@ const Test_table = () => {
     const [events_lst, setEventsList] = useState([]);
     
     const [statusAdd, setStatusAdd] = useState(0);
-    const [falseRender, setFalseRender] = useState(0);
+    const [falseRender, setFalseRender] = useState(1);
 
     const [delEvent, setDelEvent] = useState(0);
+    
+    const params = useParams();
+    const testId = String(params?.id);
+
+    const handleGetInfo = async () => {
+        try{
+            const response = await axiosInstance.get('/edit_test/'+testId);
+            if (response.status === 200){
+                setTestName(response.data["title"]);
+                const res_events_lst = response.data["events_list"];
+                const new_events_lst = [];
+                for (let i=0; i<res_events_lst.length; i++){
+                    new_events_lst.push([res_events_lst[i]['name'], res_events_lst[i]['description']]);
+                }
+                setEventsList(new_events_lst);
+            }else{
+                toast.error("Что-то не так");
+            }
+        }catch (error){
+            if (axios.isAxiosError(error) && error.response){
+                toast.error('Что-то пошло не так :(');
+            }else{
+                toast.error("Сетевая ошибка");
+            }
+        }
+    }
 
     useEffect(
         ()=>{
             if(falseRender === 1){
                 setFalseRender(0);
+                handleGetInfo();
             }
             else{
                 if(eventName !== '' && eventDescr !== ''){
@@ -223,7 +251,7 @@ const Test_table = () => {
         }
     , [chosenId]);
 
-    const handleCreateTest = async () => {
+    const handleEditTest = async () => {
         if (events_lst.length > 0 && testName!==''){
             try{
                 const new_lst = [];
@@ -235,7 +263,7 @@ const Test_table = () => {
                         }
                     )
                 }
-                const response = await axiosInstance.post('/create_test', {
+                const response = await axiosInstance.post('/edit_test/'+testId, {
                     "title": testName,
                     "type": "Timeline",
                     "event_name": "",
@@ -247,9 +275,7 @@ const Test_table = () => {
                 })
 
                 if (response.status === 200){
-                    toast.success("Тест создан!");
-                    setTestName('');
-                    setEventsList([]);
+                    toast.success("Тест отредактирован!");
                 }else{
                     toast.error('Что-то не так');
                 }
@@ -277,7 +303,7 @@ const Test_table = () => {
                         <Inp_name_block testName={testName} setTestName={setTestName}/>
                     </td>
                     <td>
-                        <Block_rules_save handleCreateTest={handleCreateTest}/>
+                        <Block_rules_save handleEditTest={handleEditTest}/>
                     </td>
                     <td>
                         <Action_block setDelEvent={setDelEvent} chosenId={chosenId} statusAdd={statusAdd} setStatusAdd={setStatusAdd} setEventName={setEventName} eventName={eventName} eventDescr={eventDescr} setEventDescr={setEventDescr}/>
@@ -294,7 +320,7 @@ const Test_table = () => {
 const Page_text = () => {
     return (
         <div className={styles.page_text}>
-            <h1>Создание теста</h1>
+            <h1>Редактирование теста</h1>
             <h2>Тип теста: Timeline</h2>
         </div>
     )
