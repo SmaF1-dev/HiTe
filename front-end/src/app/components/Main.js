@@ -105,7 +105,7 @@ export const Main = () => {
                     toast.error("Что-то не так.")
                 }
             }else{
-                toast.error("Сетевая ошибка'")
+                toast.error("Сетевая ошибка")
             }
         }
     }
@@ -117,7 +117,28 @@ export const Main = () => {
     useEffect(()=>{
         if (searchFlag==1){
             setSearchFlag(0);
-            
+            const tests_1 = [];
+            const tests_2 = [];
+            const tests_3 = [];
+            for (let i=0; i<allTests.length; i++){
+                if (allTests[i]["title"].toLowerCase().includes(paramSearch)){
+                    let pathForAdd = '/' + allTests[i]["type"].toLowerCase() + '/' + String(allTests[i]["id"]);
+                    if (i%3===0){
+                        tests_1.push(<Block_with_test name={allTests[i]["title"]} type={allTests[i]["type"]} 
+                            src={pathForAdd} key={i} author={allTests[i]["author_name"]}/>);
+                    }else if (i%3===1){
+                        tests_2.push(<Block_with_test name={allTests[i]["title"]} type={allTests[i]["type"]} 
+                            src={pathForAdd} key={i} author={allTests[i]["author_name"]}/>);
+                    }
+                    else{
+                        tests_3.push(<Block_with_test name={allTests[i]["title"]} type={allTests[i]["type"]} 
+                            src={pathForAdd} key={i} author={allTests[i]["author_name"]}/>);
+                    }
+                }
+            }
+            setListTests_1(tests_1);
+            setListTests_2(tests_2);
+            setListTests_3(tests_3);
         }
     }, [searchFlag])
 
