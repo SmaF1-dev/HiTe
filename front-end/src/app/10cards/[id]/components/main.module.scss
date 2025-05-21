@@ -1,12 +1,12 @@
 @media (min-width: 900px){
     
     .rules_block{
-        width: 20vw;
+        max-width: 24vw;
         min-height: 24vh;
         padding: 2vh 2vw;
         border: 1.5px solid var(--stroke-clr);
         border-radius: 20px;
-        margin: 2vh 6vw;
+        margin: 2vh 3vw;
         text-align: center;
 
         h2{
@@ -20,10 +20,14 @@
         }
     }
 
+    .column_events{
+        max-width: 20vw;
+    }
+
     .block_for_pick {
-        min-width: 16vw;
-        height: 11vh;
-        padding: 2vh 2vw;
+        min-width: 14vw;
+        height: auto;
+        margin: 1vh 1vw;
 
         h2{
             font-size: 120%;
@@ -36,6 +40,7 @@
             display: block;
             border: 1.5px solid var(--foreground-clr);
             border-radius: 20px;
+            padding: 0.5vh 0.5vw;
             font-size: 100%;
             font-weight: 700;
             margin: 0 auto;
@@ -52,9 +57,9 @@
     }
 
     .block_picked {
-        min-width: 16vw;
-        height: 11vh;
-        padding: 2vh 2vw;
+        min-width: 14vw;
+        height: auto;
+        margin: 1vh 1vw;
 
         h2{
             font-size: 120%;
@@ -67,6 +72,7 @@
             display: block;
             border: 1.5px solid var(--selected-clr);
             border-radius: 20px;
+            padding: 0.5vh 0.5vw;
             font-size: 100%;
             font-weight: 700;
             margin: 0 auto;
@@ -76,18 +82,38 @@
     }
 
     .big_event_block {
-        width: 20vw;
+        max-width: 24vw;
         min-height: 8vh;
         padding: 2vh 2vw;
         border: 1.5px solid var(--stroke-clr);
         border-radius: 20px;
-        margin: 2vh 6vw;
+        margin: 2vh 3vw;
         text-align: center;
 
         h2 {
             font-size: 120%;
             font-weight: 700;
         }
+
+        h3 {
+            font-size: 120%;
+            font-weight: 600;
+        }
+    }
+
+    .finish_block_gr {
+        @extend .big_event_block;
+        background-color: var(--green-clr);
+    }
+
+    .finish_block_ye {
+        @extend .big_event_block;
+        background-color: var(--yellow-clr);
+    }
+
+    .finish_block_re {
+        @extend .big_event_block;
+        background-color: var(--red-clr);
     }
 
     .save_block {
@@ -115,20 +141,23 @@
             }
         }
     }
+
+    .save_block_final{
+        display: none;
+    }
     
     .tests_table {
-        width: auto;
+        max-width: 90%;
         height: auto;
         margin-left: auto;
         margin-right: auto;
     }
 
     .page_text {
-        display: block;
-        margin: 4vh 4vw;
+        margin: 4vh 0 4vh 4vw;
 
         h1{
-            font-size: 200%;
+            font-size: 180%;
             font-weight: 700;
         }
 
@@ -138,10 +167,12 @@
     }
 
     .right_block{
-        margin-left: 3vw;
+        margin-left: 2vw;
+        max-width: 40vw;
     }
 
     .left_block{
-        margin-right: 3vw;
+        margin-right: 2vw;
+        max-width: 30vw;
     }
 }

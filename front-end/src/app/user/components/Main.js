@@ -37,9 +37,9 @@ const UserInfo = ({fullname, organization, date}) => {
 
 const Result_Test = ({name, author, score, type}) => {
     let box_clr = null
-    if (score>=80) {
+    if (score>=75) {
         box_clr = styles.green_result
-    }else if (score >= 60) {
+    }else if (score >= 50) {
         box_clr = styles.yellow_result
     }else {
         box_clr = styles.red_result

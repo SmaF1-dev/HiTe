@@ -63,10 +63,13 @@ class TestForPass(TestInfo):
     middle_event: Optional[TimelineEvent] = None # Timeline
     end_event: Optional[TimelineEvent] = None # Timeline
     events_list: Optional[list[TimelineEvent]] = [] # Timeline
+    correct_events_list: Optional[list[TimelineEvent]] = [] # Timeline
     question_lst: Optional[list[DefaultQuestionForPass]] = [] # Default
+    author_name: str
 
 class TestPassed(Test):
     cnt_wrongs: Optional[int] = None
+    author_name: str
 
 class TestWithoutResult(TestPassed):
     test_id: int

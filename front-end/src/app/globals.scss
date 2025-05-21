@@ -19,9 +19,16 @@
   font-family: 'Rubik', sans-serif;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
 body {
   color: var(--foreground-rgb);
   background-color: var(--background-clr);
+  overflow-x: hidden;
 }
 
 @layer utilities {
