@@ -87,7 +87,7 @@ export const Main = () => {
                     type={response_tests.data[i]["type"]} key={i}/>
                 )
             }
-            setListRenderTests(copy_render_list);
+            setListRenderTests(copy_render_list.reverse());
 
 
         }catch (error){

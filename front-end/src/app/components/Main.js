@@ -5,6 +5,7 @@ import { toast } from "react-toastify"
 import axios from "axios"
 import axiosInstance from '@/app/lib/axios'
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 
 const Search_block = ({paramSearch, setParamSearch, setSearchFlag}) => {
     const handleChangeSearch = (e) => {
@@ -66,6 +67,8 @@ export const Main = () => {
     const [searchFlag, setSearchFlag] = useState(0);
 
     const [allTests, setAllTests] = useState([]);
+
+    const router = useRouter();
 
     const handleGetAllTests = async () => {
         try{
