@@ -20,6 +20,55 @@
         }
     }
 
+    .no_elem{
+        display: none;
+    }
+
+    .finish_block_gr{
+        @extend .rules_block;
+        background-color: var(--green-clr);
+        min-height: 14vh;
+        h2{
+            font-size: 140%;
+            font-weight: 700;
+            margin-bottom: 1vh;
+        }
+        
+        p{
+            font-size: 120%;
+        }
+    }
+
+    .finish_block_ye{
+        @extend .rules_block;
+        background-color: var(--yellow-clr);
+        min-height: 14vh;
+        h2{
+            font-size: 140%;
+            font-weight: 700;
+            margin-bottom: 1vh;
+        }
+        
+        p{
+            font-size: 120%;
+        }
+    }
+
+    .finish_block_re{
+        @extend .rules_block;
+        background-color: var(--red-clr);
+        min-height: 14vh;
+        h2{
+            font-size: 140%;
+            font-weight: 700;
+            margin-bottom: 1vh;
+        }
+        
+        p{
+            font-size: 120%;
+        }
+    }
+
     .block_for_pick {
         width: 20vw;
         height: 4vh;
