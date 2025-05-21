@@ -226,7 +226,8 @@ def get_test_for_pass_by_id(id: int):
             shuffle(lst_events)
 
             test_for_pass = TestForPass(title=test.title, type=test.type, start_event = start_event, 
-                                        middle_event=middle_event, end_event=end_event, events_list=lst_events)
+                                        middle_event=middle_event, end_event=end_event, events_list=lst_events, 
+                                        author_name=test.author_name, correct_events_list=test.events_list)
         elif test.type == "10cards":
             lst_answers = test.correct_answers_lst.copy()
             for elem in test.incorrect_answers_lst:
@@ -235,7 +236,7 @@ def get_test_for_pass_by_id(id: int):
             shuffle(lst_answers)
             
             test_for_pass = TestForPass(title=test.title, type=test.type, event_name=test.event_name, 
-                                        answers_lst=lst_answers)
+                                        answers_lst=lst_answers, author_name=test.author_name)
             
         else:
             question_lst = test.question_lst.copy()
@@ -252,7 +253,8 @@ def get_test_for_pass_by_id(id: int):
                 question_lst[i] = DefaultQuestionForPass(question=question_block.question, answers=answers)
 
             shuffle(question_lst)
-            test_for_pass = TestForPass(title=test.title, type=test.type, question_lst=question_lst)
+            test_for_pass = TestForPass(title=test.title, type=test.type, question_lst=question_lst, 
+                                        author_name=test.author_name)
 
         return test_for_pass
 
@@ -261,10 +263,11 @@ def get_test_for_pass_by_id(id: int):
         return "Test is not exist"
     
 def passing_test(passed_test: TestWithoutResult):
+    idx = passed_test.test_id
+    original_test = TestCreate(**TESTS_DATA[idx])
+
     if passed_test.type == "10cards":
         cnt_wrongs = 0
-        idx = passed_test.test_id
-        original_test = TestCreate(**TESTS_DATA[idx])
 
         for elem in passed_test.correct_answers_lst:
             if elem not in original_test.correct_answers_lst:
@@ -283,8 +286,6 @@ def passing_test(passed_test: TestWithoutResult):
 
     else:
         cnt_wrongs = 0
-        idx = passed_test.test_id
-        original_test = TestCreate(**TESTS_DATA[idx])
 
         for elem in passed_test.question_lst:
             question = elem.question
@@ -299,11 +300,8 @@ def passing_test(passed_test: TestWithoutResult):
         result = int(round(1-cnt_wrongs/len(passed_test.question_lst), 2)*100)
      
     index = len(list(TESTS_RESULTS.keys()))+1
-    TESTS_RESULTS[index] = dict(TestWithResult(result=result, **dict(passed_test), 
-                                               author_name=USER_DATA[passed_test.email_user]["last_name"] + ' ' 
-                                               + USER_DATA[passed_test.email_user]["first_name"] + ' '
-                                               + USER_DATA[passed_test.email_user]["middle_name"]))
-    return TESTS_RESULTS
+    TESTS_RESULTS[index] = dict(TestWithResult(result=result, **dict(passed_test)))
+    return dict(**TESTS_DATA[passed_test.test_id], result=result)
 
     
 def edit_test(test: TestCreate):
