@@ -114,7 +114,11 @@ const Action_block = ({
     };
 
     const sendDataEvent = ({setStatusAdd}) => {
-        setStatusAdd(1);
+        if (corrAnsw !== '' && incorrAnswFirst !== '' && incorrAnswSecond !== '' && incorrAnswThird !== '' && question !== ''){
+            setStatusAdd(1);
+        }else{
+            toast.error("Не все поля заполнены!");
+        }
     };
 
     const corrAnswChange = (e) => {

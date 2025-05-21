@@ -206,7 +206,7 @@ export const Main = () => {
 
     const [miniTitle, setMiniTitle] = useState('Правила теста');
     const [result, setResult] = useState(-1);
-    const [descrResult, setDescrResult] = useState('В данном формате теста у Вас есть вопросы. На каждый из вопросов есть 4 варианта ответа. Ваша задача - выбрать верный. Удачи.');
+    const [descrResult, setDescrResult] = useState('В данном формате теста у Вас есть 3 события. Информация о них расположена слева. Ваша задача - выбрать верный промежуток между событиями, в который по Вашему мнению подойдет событие снизу. Удачи.');
 
     const [finishFlag, setFinishFlag] = useState(0);
 
