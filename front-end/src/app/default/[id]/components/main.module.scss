@@ -1,4 +1,8 @@
 @media (min-width: 900px){
+
+    .no_elem{
+        display: none;
+    }
     
     .rules_block{
         width: 20vw;
@@ -20,8 +24,23 @@
         }
     }
 
+    .finish_block_gr{
+        @extend .rules_block;
+        background-color: var(--green-clr);
+    }
+
+    .finish_block_ye{
+        @extend .rules_block;
+        background-color: var(--yellow-clr);
+    }
+
+    .finish_block_re{
+        @extend .rules_block;
+        background-color: var(--red-clr);
+    }
+
     .block_for_pick {
-        width: 6vw;
+        min-width: 6vw;
         min-height: 2vh;
 
         button{
@@ -47,7 +66,7 @@
     }
 
     .block_picked {
-        width: 6vw;
+        min-width: 6vw;
         min-height: 2vh;
 
         button{
@@ -66,9 +85,10 @@
     }
 
     .question_block{
-        width: 20vw;
+        min-width: 20vw;
         min-height: 10vh;
         padding: 1vh 1vw;
+        margin: 0.5vh 0.5vw;
         color: var(--foreground-clr);
         border: 1.5px solid var(--stroke-clr);
         border-radius: 20px;
