@@ -241,7 +241,6 @@ def passing_test(passed_test: TestWithoutResult):
         original_test = db.query(TestDB).filter(TestDB.id == passed_test.test_id).first()
         if not original_test:
             return {"error": "Test not found"}
-        
         if passed_test.type == "10cards":
             cnt_wrongs = 0
             original_correct = set(original_test.correct_answers_lst)
@@ -274,7 +273,20 @@ def passing_test(passed_test: TestWithoutResult):
                     cnt_wrongs += 1
             result = int(round(1 - cnt_wrongs / len(passed_test.question_lst), 2) * 100) if passed_test.question_lst else 0
         
+         # Преобразуем вопросы в словари перед сохранением
+        question_lst = []
+        if passed_test.question_lst:
+            for question in passed_test.question_lst:
+                if isinstance(question, DefaultQuestionForPass):
+                    question_lst.append({
+                        "question": question.question,
+                        "correct_answer": question.correct_answer,
+                        "answers": question.answers
+                    })
+                else:
+                    question_lst.append(question.dict() if hasattr(question, 'dict') else question)
         # Сохраняем результат
+         # Создаем результат теста
         db_result = TestResultDB(
             test_id=passed_test.test_id,
             email_user=passed_test.email_user,
@@ -282,11 +294,11 @@ def passing_test(passed_test: TestWithoutResult):
             title=passed_test.title,
             type=passed_test.type,
             event_name=passed_test.event_name,
-            event_description=passed_test.event_description,
+            event_description=original_test.event_description,
             correct_answers_lst=passed_test.correct_answers_lst,
             incorrect_answers_lst=passed_test.incorrect_answers_lst,
             events_list=[event.dict() for event in passed_test.events_list] if passed_test.events_list else None,
-            question_lst=passed_test.question_lst,
+            question_lst=question_lst,
             cnt_wrongs=cnt_wrongs,
             result=result
         )
@@ -296,11 +308,11 @@ def passing_test(passed_test: TestWithoutResult):
         db.refresh(db_result)
         
         return {
-            **original_test.__dict__,
-            "result": result
+            **db_result.__dict__
         }
     except Exception as e:
         db.rollback()
+        print(str(e))
         return {"error": str(e)}
     finally:
         db.close()
