@@ -124,7 +124,7 @@ export const Main = () => {
             const tests_2 = [];
             const tests_3 = [];
             for (let i=0; i<allTests.length; i++){
-                if (allTests[i]["title"].toLowerCase().includes(paramSearch)){
+                if (allTests[i]["title"].toLowerCase().includes(paramSearch.toLowerCase())){
                     let pathForAdd = '/' + allTests[i]["type"].toLowerCase() + '/' + String(allTests[i]["id"]);
                     if (i%3===0){
                         tests_1.push(<Block_with_test name={allTests[i]["title"]} type={allTests[i]["type"]} 
