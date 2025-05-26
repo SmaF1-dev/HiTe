@@ -35,7 +35,7 @@ HiTe - platform with unusual interactive Historical Tests
 - `server/` — actual version of the server
 
 ## Project launch
-To run the client side, run:
+To run the client side go to the front-end directory and run:
    ```
    yarn dev
    ```
@@ -43,3 +43,8 @@ or
    ```
    npm run dev
    ```
+
+To run the server side go to the server directory and run:
+  ```
+  uvicorn main:app --reload
+  ```
