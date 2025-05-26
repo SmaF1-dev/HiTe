@@ -35,25 +35,25 @@ HiTe - platform with unusual interactive Historical Tests
 - `server/` — actual version of the server
 
 ## Project launch
-### To run the client side 
+### To run the client side:
 1. Select the directory with the client part:
   ```
   cd front-end
   ```
 2. Run npm-server:
-   ```
-   yarn dev
-   ```
+  ```
+  yarn dev
+  ```
 or
-   ```
-   npm run dev
-   ```
-### To run the server side 
+  ```
+  npm run dev
+  ```
+### To run the server side:
 1. Select the directory with the client part:
   ```
   cd server
   ```
 2. Run FastAPI-server:
-   ```
-   uvicorn main:app --reload
-   ```
+  ```
+  uvicorn main:app --reload
+  ```
