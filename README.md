@@ -40,7 +40,17 @@ HiTe - platform with unusual interactive Historical Tests
   ```
   cd front-end
   ```
-2. Run npm-server:
+2. Install the dependencies:
+  ```
+  npm install
+  ```
+3. Build the app:
+  ```
+  npm run build
+  # or
+  yarn build
+  ```
+4. Run npm-server:
   ```
   yarn dev
   ```
