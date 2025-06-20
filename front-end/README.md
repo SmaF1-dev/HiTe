@@ -2,7 +2,27 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+Before you start, make sure that you have Node installed.js of the current version (LTS version is recommended).
+
+First, clone this repository:
+```bash
+git clone https://github.com/SmaF1-dev/HiTe.git
+```
+
+Secondly, go to the folder on the client side and install the dependencies:
+```bash
+cd front-end
+npm install
+```
+
+Third, build the app:
+```bash
+npm run build
+# or
+yarn build
+```
+
+Done. Now you can launch the app:
 
 ```bash
 npm run dev
